@@ -27,13 +27,17 @@
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
                             <div class="ml-3 relative">
-                                <!-- Teams Dropdown -->
-                                <jet-dropdown align="right" width="60" v-if="$page.props.jetstream.hasTeamFeatures">
+                                <!-- Groups Dropdown -->
+                                <jet-dropdown align="right" width="60">
                                     <template #trigger>
                                         <span class="inline-flex rounded-md">
                                             <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition">
-                                                {{ $page.props.user.current_team.name }}
-
+                                                <span v-if="$page.props.group">
+                                                    {{ $page.props.group.name }}
+                                                </span>
+                                                <span v-else>
+                                                    No Group Selected
+                                                </span>
                                                 <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                     <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
                                                 </svg>
@@ -43,39 +47,44 @@
 
                                     <template #content>
                                         <div class="w-60">
-                                            <!-- Team Management -->
-                                            <template v-if="$page.props.jetstream.hasTeamFeatures">
+                                            <!-- Group Management -->
                                                 <div class="block px-4 py-2 text-xs text-gray-400">
-                                                    Manage Team
+                                                    Manage Group
                                                 </div>
 
-                                                <!-- Team Settings -->
-                                                <jet-dropdown-link :href="route('teams.show', $page.props.user.current_team)">
-                                                    Team Settings
+                                                <!-- Group Settings -->
+                                                <jet-dropdown-link v-if="$page.props.group" :href="route('groups.edit', $page.props.group.id)">
+                                                    Group Settings
                                                 </jet-dropdown-link>
 
-                                                <jet-dropdown-link :href="route('teams.create')" v-if="$page.props.jetstream.canCreateTeams">
-                                                    Create New Team
+                                                <jet-dropdown-link :href="route('groups.create')">
+                                                    Create New Group
                                                 </jet-dropdown-link>
 
-                                                <div class="border-t border-gray-100"></div>
+                                                <p v-if="$page.props.group" @click="exitGroup" class="cursor-pointer block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition">
+                                                    Exit Group
+                                                </p>
 
-                                                <!-- Team Switcher -->
-                                                <div class="block px-4 py-2 text-xs text-gray-400">
-                                                    Switch Teams
+                                            <div class="border-t border-gray-100"></div>
+
+                                                <!-- Group Switcher -->
+                                                <div v-if="$page.props.group" class="block px-4 py-2 text-xs text-gray-400">
+                                                    Switch Groups
+                                                </div>
+                                                <div v-else class="block px-4 py-2 text-xs text-gray-400">
+                                                    Select Group
                                                 </div>
 
-                                                <template v-for="team in $page.props.user.all_teams" :key="team.id">
-                                                    <form @submit.prevent="switchToTeam(team)">
+                                                <div v-for="group in $page.props.user.groups" :key="group.id">
+                                                    <form @submit.prevent="switchToGroup(group.id)">
                                                         <jet-dropdown-link as="button">
                                                             <div class="flex items-center">
-                                                                <svg v-if="team.id == $page.props.user.current_team_id" class="mr-2 h-5 w-5 text-green-400" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                                                <div>{{ team.name }}</div>
+                                                                <svg v-if="$page.props.group && group.id === $page.props.group.id" class="mr-2 h-5 w-5 text-green-400" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                                <div>{{ group.name }}</div>
                                                             </div>
                                                         </jet-dropdown-link>
                                                     </form>
-                                                </template>
-                                            </template>
+                                                </div>
                                         </div>
                                     </template>
                                 </jet-dropdown>
@@ -176,41 +185,48 @@
                                 </jet-responsive-nav-link>
                             </form>
 
-                            <!-- Team Management -->
-                            <template v-if="$page.props.jetstream.hasTeamFeatures">
+                            <!-- Group Management -->
+<!--                            <template>-->
                                 <div class="border-t border-gray-200"></div>
 
                                 <div class="block px-4 py-2 text-xs text-gray-400">
-                                    Manage Team
+                                    Manage Group
                                 </div>
 
-                                <!-- Team Settings -->
-                                <jet-responsive-nav-link :href="route('teams.show', $page.props.user.current_team)" :active="route().current('teams.show')">
-                                    Team Settings
+                                <!-- Group Settings -->
+                                <jet-responsive-nav-link v-if="$page.props.group" :href="route('groups.edit', $page.props.group.id)" :active="route().current('groups.edit')">
+                                    Group Settings
                                 </jet-responsive-nav-link>
 
-                                <jet-responsive-nav-link :href="route('teams.create')" :active="route().current('teams.create')" v-if="$page.props.jetstream.canCreateTeams">
-                                    Create New Team
+                                <jet-responsive-nav-link :href="route('groups.create')" :active="route().current('groups.create')">
+                                    Create New Group
                                 </jet-responsive-nav-link>
+
+                                <p v-if="$page.props.group" @click="exitGroup" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition">
+                                    Exit Group
+                                </p>
 
                                 <div class="border-t border-gray-200"></div>
 
-                                <!-- Team Switcher -->
-                                <div class="block px-4 py-2 text-xs text-gray-400">
-                                    Switch Teams
+                                <!-- Group Switcher -->
+                                <div v-if="$page.props.group" class="block px-4 py-2 text-xs text-gray-400">
+                                    Switch Groups
+                                </div>
+                                <div v-else class="block px-4 py-2 text-xs text-gray-400">
+                                    Select Group
                                 </div>
 
-                                <template v-for="team in $page.props.user.all_teams" :key="team.id">
-                                    <form @submit.prevent="switchToTeam(team)">
+                                <template v-for="group in $page.props.user.groups" :key="group.id">
+                                    <form @submit.prevent="switchToGroup(group.id)">
                                         <jet-responsive-nav-link as="button">
                                             <div class="flex items-center">
-                                                <svg v-if="team.id == $page.props.user.current_team_id" class="mr-2 h-5 w-5 text-green-400" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                                <div>{{ team.name }}</div>
+                                                <svg v-if="$page.props.group && group.id === $page.props.group.id" class="mr-2 h-5 w-5 text-green-400" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                <div>{{ group.name }}</div>
                                             </div>
                                         </jet-responsive-nav-link>
                                     </form>
                                 </template>
-                            </template>
+<!--                            </template>-->
                         </div>
                     </div>
                 </div>
@@ -263,12 +279,14 @@
         },
 
         methods: {
-            switchToTeam(team) {
-                this.$inertia.put(route('current-team.update'), {
-                    'team_id': team.id
-                }, {
+            switchToGroup(group) {
+                this.$inertia.get('/groups/' + group, {}, {
                     preserveState: false
                 })
+            },
+
+            exitGroup() {
+                this.$inertia.delete('/groups');
             },
 
             logout() {

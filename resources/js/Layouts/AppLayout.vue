@@ -22,6 +22,10 @@
                                 <jet-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </jet-nav-link>
+
+                                <jet-nav-link v-if="$page.props.group" :href="route('groups.members')" :active="route().current('groups.members')">
+                                    Members
+                                </jet-nav-link>
                             </div>
                         </div>
 
@@ -186,47 +190,45 @@
                             </form>
 
                             <!-- Group Management -->
-<!--                            <template>-->
-                                <div class="border-t border-gray-200"></div>
+                            <div class="border-t border-gray-200"></div>
 
-                                <div class="block px-4 py-2 text-xs text-gray-400">
-                                    Manage Group
-                                </div>
+                            <div class="block px-4 py-2 text-xs text-gray-400">
+                                Manage Group
+                            </div>
 
-                                <!-- Group Settings -->
-                                <jet-responsive-nav-link v-if="$page.props.group" :href="route('groups.edit', $page.props.group.id)" :active="route().current('groups.edit')">
-                                    Group Settings
-                                </jet-responsive-nav-link>
+                            <!-- Group Settings -->
+                            <jet-responsive-nav-link v-if="$page.props.group" :href="route('groups.edit', $page.props.group.id)" :active="route().current('groups.edit')">
+                                Group Settings
+                            </jet-responsive-nav-link>
 
-                                <jet-responsive-nav-link :href="route('groups.create')" :active="route().current('groups.create')">
-                                    Create New Group
-                                </jet-responsive-nav-link>
+                            <jet-responsive-nav-link :href="route('groups.create')" :active="route().current('groups.create')">
+                                Create New Group
+                            </jet-responsive-nav-link>
 
-                                <p v-if="$page.props.group" @click="exitGroup" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition">
-                                    Exit Group
-                                </p>
+                            <p v-if="$page.props.group" @click="exitGroup" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition">
+                                Exit Group
+                            </p>
 
-                                <div class="border-t border-gray-200"></div>
+                            <div class="border-t border-gray-200"></div>
 
-                                <!-- Group Switcher -->
-                                <div v-if="$page.props.group" class="block px-4 py-2 text-xs text-gray-400">
-                                    Switch Groups
-                                </div>
-                                <div v-else class="block px-4 py-2 text-xs text-gray-400">
-                                    Select Group
-                                </div>
+                            <!-- Group Switcher -->
+                            <div v-if="$page.props.group" class="block px-4 py-2 text-xs text-gray-400">
+                                Switch Groups
+                            </div>
+                            <div v-else class="block px-4 py-2 text-xs text-gray-400">
+                                Select Group
+                            </div>
 
-                                <template v-for="group in $page.props.user.groups" :key="group.id">
-                                    <form @submit.prevent="switchToGroup(group.id)">
-                                        <jet-responsive-nav-link as="button">
-                                            <div class="flex items-center">
-                                                <svg v-if="$page.props.group && group.id === $page.props.group.id" class="mr-2 h-5 w-5 text-green-400" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                                <div>{{ group.name }}</div>
-                                            </div>
-                                        </jet-responsive-nav-link>
-                                    </form>
-                                </template>
-<!--                            </template>-->
+                            <template v-for="group in $page.props.user.groups" :key="group.id">
+                                <form @submit.prevent="switchToGroup(group.id)">
+                                    <jet-responsive-nav-link as="button">
+                                        <div class="flex items-center">
+                                            <svg v-if="$page.props.group && group.id === $page.props.group.id" class="mr-2 h-5 w-5 text-green-400" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            <div>{{ group.name }}</div>
+                                        </div>
+                                    </jet-responsive-nav-link>
+                                </form>
+                            </template>
                         </div>
                     </div>
                 </div>

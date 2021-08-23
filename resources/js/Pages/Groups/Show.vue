@@ -1,16 +1,20 @@
 <template>
-    <div>
-        {{ $page.props.group.name }}
-    </div>
+    <group-layout>
+        <template #boxed>
+            <div>
+                {{ $page.props.group.name }}
+            </div>
+        </template>
+    </group-layout>
 </template>
 
 <script>
-import AppLayout from "../../Layouts/AppLayout";
+import GroupLayout from "@/Layouts/GroupLayout";
 
 export default {
     name: "ShowGroup",
 
-    components: {AppLayout},
+    components: {GroupLayout},
 
     props: {
         group: {

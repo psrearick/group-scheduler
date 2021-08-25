@@ -7,6 +7,16 @@ use Illuminate\Support\Facades\Schema;
 class CreateGroupUserTable extends Migration
 {
     /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('group_user');
+    }
+
+    /**
      * Run the migrations.
      *
      * @return void
@@ -19,15 +29,5 @@ class CreateGroupUserTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('group_user');
     }
 }

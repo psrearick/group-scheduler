@@ -17,23 +17,23 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
+        'canLogin'       => Route::has('login'),
+        'canRegister'    => Route::has('register'),
         'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+        'phpVersion'     => PHP_VERSION,
     ]);
 });
 
 Route::get('/', [
-    \App\Http\Controllers\DashboardController::class, 'show'
+    \App\Http\Controllers\DashboardController::class, 'show',
 ])->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [
-    \App\Http\Controllers\DashboardController::class, 'show'
+    \App\Http\Controllers\DashboardController::class, 'show',
 ])->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified'])->post('/users', [
-    \App\Http\Controllers\UserMemberController::class, 'store'
+    \App\Http\Controllers\UserMemberController::class, 'store',
 ]);
 
 Route::middleware(['auth:sanctum', 'verified'])->prefix('groups')->group(function () {

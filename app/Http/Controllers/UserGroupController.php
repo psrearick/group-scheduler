@@ -8,7 +8,8 @@ use Inertia\Inertia;
 
 class UserGroupController extends Controller
 {
-    public function create() {
+    public function create()
+    {
         return Inertia::render('UserGroups/Create');
     }
 }

@@ -24,19 +24,19 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input)
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'name'     => ['required', 'string', 'max:255'],
+            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'username' => ['sometimes', 'unique:users'],
             'password' => $this->passwordRules(),
-            'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
+            'terms'    => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ])->validate();
 
         return User::create([
-            'name' => $input['name'],
+            'name'     => $input['name'],
             'username' => $input['username']
                 ?? (new GenerateUsername($input['name']))->generate(),
-            'email' => $input['email'],
-            'password' => Hash::make($input['password']),
+            'email'      => $input['email'],
+            'password'   => Hash::make($input['password']),
             'claimed_at' => Carbon::now(),
         ]);
     }

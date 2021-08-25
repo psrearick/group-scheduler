@@ -24,10 +24,10 @@ class StoreMemberRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['sometimes', 'nullable', 'string', 'email', 'max:255', 'unique:users'],
-            'username' => ['sometimes', 'unique:users'],
-            'phone_number' => ['sometimes'],
+            'name'             => ['required', 'string', 'max:255'],
+            'email'            => ['sometimes', 'nullable', 'string', 'email', 'max:255', 'unique:users'],
+            'username'         => ['sometimes', 'unique:users'],
+            'phone_number'     => ['sometimes'],
             'groupme_username' => ['sometimes'],
         ];
     }

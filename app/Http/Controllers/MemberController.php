@@ -13,16 +13,17 @@ use Session;
 
 class MemberController extends Controller
 {
-    public function index(): Response
+    public function index() : Response
     {
         $groupId = Session::get('group');
         $members = Group::find($groupId)->users;
+
         return Inertia::render('Members/Index', [
             'members' => $members,
         ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request) : RedirectResponse
     {
         $validated = $request->validate([
             'username'  => 'required_without:email',

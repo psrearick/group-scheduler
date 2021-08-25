@@ -7,6 +7,16 @@ use Illuminate\Support\Facades\Schema;
 class CreateGroupsTable extends Migration
 {
     /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('groups');
+    }
+
+    /**
      * Run the migrations.
      *
      * @return void
@@ -19,15 +29,5 @@ class CreateGroupsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('groups');
     }
 }

@@ -10,6 +10,16 @@ use Laravel\Jetstream\Jetstream;
 
 class CreateGroup
 {
+    /*
+     * @throws ValidationException
+     */
+    public function createGroup(array $input) : Group
+    {
+        $this->validateData($input);
+
+        return Group::create($input);
+    }
+
     /**
      * @throws ValidationException
      */
@@ -25,16 +35,8 @@ class CreateGroup
     {
         $group = $this->createGroup($input);
         $user->groups()->attach($group->id);
-        return $group;
-    }
 
-    /*
-     * @throws ValidationException
-     */
-    public function createGroup(array $input) : Group
-    {
-        $this->validateData($input);
-        return Group::create($input);
+        return $group;
     }
 
     /**

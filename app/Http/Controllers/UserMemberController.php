@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Session;
 
 class UserMemberController extends Controller
 {
-    public function store(StoreMemberRequest $request): RedirectResponse
+    public function store(StoreMemberRequest $request) : RedirectResponse
     {
         $user = User::create([
-            'name' => $request->input('name'),
+            'name'     => $request->input('name'),
             'username' => $request->input('username')
                 ?? (new GenerateUsername($request->input('name')))->generate(),
-            'email' => $request->input('email'),
-            'phone_number' => $request->input('phone_number'),
+            'email'            => $request->input('email'),
+            'phone_number'     => $request->input('phone_number'),
             'groupme_username' => $request->input('groupme_username'),
         ]);
 

@@ -11,22 +11,23 @@ use Inertia\Inertia;
 
 class GroupController extends Controller
 {
-    public function create(): \Inertia\Response
+    public function create() : \Inertia\Response
     {
         return Inertia::render('Groups/Create');
-    }
-
-    /**
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function store(): \Illuminate\Http\RedirectResponse
-    {
-        app(CreateGroup::class)->storeForUser(request()->all(), Auth::user());
-        return Redirect::route('dashboard');
     }
 
     public function edit(Group $group)
     {
         dd($group);
+    }
+
+    /**
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function store() : \Illuminate\Http\RedirectResponse
+    {
+        app(CreateGroup::class)->storeForUser(request()->all(), Auth::user());
+
+        return Redirect::route('dashboard');
     }
 }

@@ -11,16 +11,6 @@ use Inertia\Inertia;
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
-
-    /**
      * Bootstrap any application services.
      *
      * @return void
@@ -34,5 +24,15 @@ class AppServiceProvider extends ServiceProvider
         Inertia::share('group', fn () => Session::get('group')
             ? Group::find(Session::get('group'))
             : null);
+    }
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
     }
 }

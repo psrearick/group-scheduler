@@ -32,7 +32,9 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [
     \App\Http\Controllers\DashboardController::class, 'show'
 ])->name('dashboard');
 
-
+Route::middleware(['auth:sanctum', 'verified'])->post('/users', [
+    \App\Http\Controllers\UserMemberController::class, 'store'
+]);
 
 Route::middleware(['auth:sanctum', 'verified'])->prefix('groups')->group(function () {
     Route::post('/', [\App\Http\Controllers\GroupController::class, 'store']);
@@ -43,5 +45,6 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('groups')->group(functio
     Route::get('/members', [\App\Http\Controllers\MemberController::class, 'index'])
         ->middleware('inGroup')
         ->name('groups.members');
+    Route::post('/members', [\App\Http\Controllers\MemberController::class, 'store']);
     Route::get('/{group}', [\App\Http\Controllers\UserGroupAccessController::class, 'show']);
 });

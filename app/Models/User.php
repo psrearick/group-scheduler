@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -28,6 +29,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'username',
+        'claimed_at',
+        'phone_number',
+        'groupme_username',
     ];
 
     /**
@@ -63,5 +68,10 @@ class User extends Authenticatable
     public function groups() : BelongsToMany
     {
         return $this->belongsToMany(Group::class);
+    }
+
+    public function setUsernameAttribute($value)
+    {
+        $this->attributes['username'] = $value ?: Str::studly($this->attributes['name']);
     }
 }

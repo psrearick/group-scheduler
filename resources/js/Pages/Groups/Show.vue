@@ -14,7 +14,7 @@ import GroupLayout from "@/Layouts/GroupLayout";
 export default {
     name: "ShowGroup",
 
-    components: {GroupLayout},
+    components: { GroupLayout },
 
     props: {
         group: {
@@ -22,6 +22,5 @@ export default {
             default: () => {},
         },
     },
-}
+};
 </script>
-

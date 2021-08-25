@@ -16,25 +16,22 @@
                         @click="createUserShow(!createPanelShow)"
                     ></ui-button>
                 </div>
-                <ui-data-table
-                    :data="getMembers()"
-                    :fields="membersFields"
-
-                />
+                <ui-data-table :data="getMembers()" :fields="membersFields" />
             </div>
         </template>
         <ui-panel
             :show="createPanelShow"
-            @update:show="createUserShow($event)"
-            @close="closeCreateUser"
-            @save="createUser"
             :form="true"
             :clear="false"
             title="Add User to Group"
             save-text="Add"
+            @update:show="createUserShow($event)"
+            @close="closeCreateUser"
+            @save="createUser"
         >
             <p class="text-gray-500 text-sm py-4">
-                Create a new user for this group that can be claimed at a later time.
+                Create a new user for this group that can be claimed at a later
+                time.
             </p>
             <form>
                 <ui-input
@@ -45,7 +42,6 @@
                     :required="true"
                     class="mb-4"
                     :error-message="errorMessages.name"
-
                 />
                 <ui-input
                     v-model="createUserForm.username"
@@ -86,13 +82,13 @@
         </ui-panel>
         <ui-panel
             :show="addPanelShow"
-            @update:show="addUserShow($event)"
-            @close="closeAddUser"
-            @save="addUser"
             :form="true"
             :clear="false"
             title="Add User to Group"
             save-text="Add"
+            @update:show="addUserShow($event)"
+            @close="closeAddUser"
+            @save="addUser"
         >
             <p class="text-gray-500 text-sm py-4">
                 Add an existing user by their username or email.
@@ -130,7 +126,7 @@ import UiInput from "@/UI/UIInput";
 export default {
     name: "MembersIndex",
 
-    components: {UiInput, UiDataTable, UiPanel, UiButton, GroupLayout},
+    components: { UiInput, UiDataTable, UiPanel, UiButton, GroupLayout },
 
     props: {
         members: {
@@ -143,45 +139,45 @@ export default {
         },
     },
 
-    data: function() {
+    data: function () {
         return {
             membersFields: [
                 {
-                    text: 'Name',
-                    field: 'name',
+                    text: "Name",
+                    field: "name",
                 },
                 {
-                    text: 'Email',
-                    field: 'email',
+                    text: "Email",
+                    field: "email",
                 },
                 {
-                    text: 'Phone',
-                    field: 'phone_number',
+                    text: "Phone",
+                    field: "phone_number",
                 },
                 {
-                    text: 'GroupMe',
-                    field: 'groupme_username',
+                    text: "GroupMe",
+                    field: "groupme_username",
                 },
                 {
-                    text: 'Active',
-                    field: 'active',
+                    text: "Active",
+                    field: "active",
                 },
             ],
             createPanelShow: false,
             createUserForm: {
-                name: '',
-                username: '',
-                email: '',
-                phone_number: '',
-                groupme_username: '',
+                name: "",
+                username: "",
+                email: "",
+                phone_number: "",
+                groupme_username: "",
             },
             addPanelShow: false,
             addUserForm: {
-                username: '',
-                email: '',
+                username: "",
+                email: "",
             },
             errorMessages: {},
-        }
+        };
     },
 
     watch: {
@@ -209,24 +205,20 @@ export default {
 
         closeAddUser() {
             this.addUserForm = {
-                username: '',
-                email: '',
+                username: "",
+                email: "",
             };
             this.errorMessages = {};
         },
 
         addUser() {
             let self = this;
-            this.$inertia.post(
-                '/groups/members',
-                this.addUserForm,
-                {
-                    onSuccess: function () {
-                        self.closeAddUser();
-                        self.addUserShow(false);
-                    }
-                }
-            );
+            this.$inertia.post("/groups/members", this.addUserForm, {
+                onSuccess: function () {
+                    self.closeAddUser();
+                    self.addUserShow(false);
+                },
+            });
         },
 
         createUserShow(show) {
@@ -235,30 +227,24 @@ export default {
 
         closeCreateUser() {
             this.createUserForm = {
-                name: '',
-                username: '',
-                email: '',
-                phone_number: '',
-                groupme_username: '',
+                name: "",
+                username: "",
+                email: "",
+                phone_number: "",
+                groupme_username: "",
             };
             this.errorMessages = {};
         },
 
         createUser() {
             let self = this;
-            this.$inertia.post(
-                '/users',
-                this.createUserForm,
-                {
-                    onSuccess: function () {
-                        self.closeCreateUser();
-                        self.createUserShow(false);
-                    }
-                }
-            );
+            this.$inertia.post("/users", this.createUserForm, {
+                onSuccess: function () {
+                    self.closeCreateUser();
+                    self.createUserShow(false);
+                },
+            });
         },
-    }
-
-
-}
+    },
+};
 </script>

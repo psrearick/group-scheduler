@@ -8,7 +8,15 @@
 
         <div v-if="$slots.boxed" class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg min-h-screen">
+                <div
+                    class="
+                        bg-white
+                        overflow-hidden
+                        shadow-xl
+                        sm:rounded-lg
+                        min-h-screen
+                    "
+                >
                     <slot name="boxed"></slot>
                 </div>
             </div>
@@ -22,14 +30,14 @@
 
 <script>
 import AppLayout from "@/Layouts/AppLayout";
-import JetNavLink from '@/Jetstream/NavLink.vue'
+import JetNavLink from "@/Jetstream/NavLink.vue";
 
 export default {
     name: "GroupLayout",
 
     components: {
         AppLayout,
-        JetNavLink
-    }
-}
+        JetNavLink,
+    },
+};
 </script>

@@ -1,17 +1,13 @@
 <template>
-<app-layout title="Join Group">
-    Join Group
-</app-layout>
+    <app-layout title="Join Group"> Join Group </app-layout>
 </template>
 
 <script>
 import AppLayout from "../../Layouts/AppLayout";
 export default {
     name: "Create",
-    components: {AppLayout}
-}
+    components: { AppLayout },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

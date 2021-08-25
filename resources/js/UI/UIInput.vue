@@ -1,17 +1,24 @@
 <template>
     <div class="mt-1">
         <div>
-            <label
-                :for="name"
-                class="block text-sm font-medium text-gray-700"
-            >
+            <label :for="name" class="block text-sm font-medium text-gray-700">
                 {{ label }}
-                <span v-if="required" class="text-xs text-red-500">(required)</span>
+                <span v-if="required" class="text-xs text-red-500"
+                    >(required)</span
+                >
             </label>
             <div class="mt-1 relative rounded-md shadow-sm">
                 <div
                     v-if="before"
-                    class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                    class="
+                        absolute
+                        inset-y-0
+                        left-0
+                        pl-3
+                        flex
+                        items-center
+                        pointer-events-none
+                    "
                 >
                     <span class="text-gray-500 sm:text-sm">
                         {{ before }}
@@ -21,7 +28,18 @@
                     :id="name"
                     :type="getType()"
                     :name="name"
-                    class="border py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md"
+                    class="
+                        border
+                        py-2
+                        focus:ring-indigo-500 focus:border-indigo-500
+                        block
+                        w-full
+                        pl-7
+                        pr-12
+                        sm:text-sm
+                        border-gray-300
+                        rounded-md
+                    "
                     :placeholder="placeholder"
                     :autocomplete="name"
                     :required="required"
@@ -32,15 +50,20 @@
                     :step="step"
                     @input="$emit('update:modelValue', $event.target.value)"
                     @blur="$emit('blur', $event.target.value)"
-                >
+                />
                 <div
                     v-if="after"
-                    class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
+                    class="
+                        absolute
+                        inset-y-0
+                        right-0
+                        pr-3
+                        flex
+                        items-center
+                        pointer-events-none
+                    "
                 >
-                    <span
-                        id="price-currency"
-                        class="text-gray-500 sm:text-sm"
-                    >
+                    <span id="price-currency" class="text-gray-500 sm:text-sm">
                         {{ after }}
                     </span>
                 </div>
@@ -56,70 +79,70 @@
 
 <script>
 export default {
-    name: 'UiInput',
+    name: "UiInput",
 
     props: {
         modelValue: {
             type: String,
-            default: ''
+            default: "",
         },
         name: {
             type: String,
-            default: ''
+            default: "",
         },
         type: {
             type: String,
-            default: 'input'
+            default: "input",
         },
         label: {
             type: String,
-            default: ''
+            default: "",
         },
         placeholder: {
             type: String,
-            default: ''
+            default: "",
         },
         required: {
             type: Boolean,
-            default: false
+            default: false,
         },
         formatter: {
-            type:Function,
+            type: Function,
             default: (value) => {
                 return value;
-            }
+            },
         },
         disabled: {
             type: Boolean,
-            default: false
+            default: false,
         },
         min: {
             type: Number,
-            default: null
+            default: null,
         },
         max: {
             type: Number,
-            default: null
+            default: null,
         },
         step: {
             type: Number,
-            default: 1
+            default: 1,
         },
         before: {
             type: String,
-            default: null
+            default: null,
         },
         after: {
             type: String,
-            default: null
+            default: null,
         },
         errorMessage: {
             type: String,
-            default: ''
-        }
+            default: "",
+        },
     },
 
-    emits: ['update:modelValue', 'blur'],
+    emits: ["update:modelValue", "blur"],
 
     computed: {
         value() {
@@ -127,15 +150,16 @@ export default {
                 return this.modelValue;
             }
             return this.formatter(this.modelValue);
-        }
+        },
     },
 
     methods: {
         focus() {
-            this.$refs.input.focus()
+            this.$refs.input.focus();
         },
         getClass() {
-            let thisClass = "w-full appearance-none block px-3 py-2 border border-gray-300 shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            let thisClass =
+                "w-full appearance-none block px-3 py-2 border border-gray-300 shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm";
             if (this.type === "currency") {
                 return "col-span-7 rounded-r-md " + thisClass;
             }
@@ -146,11 +170,10 @@ export default {
         },
         getType() {
             if (this.type === "currency" || this.type === "percent") {
-                return 'text';
+                return "text";
             }
             return this.type;
-        }
-    }
+        },
+    },
 };
 </script>
-

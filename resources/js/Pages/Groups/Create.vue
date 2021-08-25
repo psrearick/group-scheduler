@@ -11,15 +11,34 @@
                 <form class="w-1/2 ml-4" @submit.prevent="submit">
                     <div class="mb-4">
                         <jet-label for="name" value="Name" />
-                        <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autofocus autocomplete="name" />
-                        <p v-if="errors.name" class="text-red-500">{{ errors.name }}</p>
+                        <jet-input
+                            id="name"
+                            v-model="form.name"
+                            type="text"
+                            class="mt-1 block w-full"
+                            required
+                            autofocus
+                            autocomplete="name"
+                        />
+                        <p v-if="errors.name" class="text-red-500">
+                            {{ errors.name }}
+                        </p>
                     </div>
 
                     <div class="flex justify-between">
-                        <jet-button @click.prevent="cancel" type="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                        <jet-button
+                            type="submit"
+                            :class="{ 'opacity-25': form.processing }"
+                            :disabled="form.processing"
+                            @click.prevent="cancel"
+                        >
                             Cancel
                         </jet-button>
-                        <jet-button type="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                        <jet-button
+                            type="submit"
+                            :class="{ 'opacity-25': form.processing }"
+                            :disabled="form.processing"
+                        >
                             Create
                         </jet-button>
                     </div>
@@ -32,39 +51,39 @@
 <script>
 import AppLayout from "../../Layouts/AppLayout";
 import page from "../../Partials/__page";
-import JetButton from '@/Jetstream/Button.vue'
-import JetInput from '@/Jetstream/Input.vue'
-import JetLabel from '@/Jetstream/Label.vue'
+import JetButton from "@/Jetstream/Button.vue";
+import JetInput from "@/Jetstream/Input.vue";
+import JetLabel from "@/Jetstream/Label.vue";
 
 export default {
     name: "CreateGroup",
+
+    components: { AppLayout, page, JetButton, JetLabel, JetInput },
 
     props: {
         errors: {
             type: Object,
             default: () => {},
-        }
+        },
     },
-
-    components: {AppLayout, page, JetButton, JetLabel, JetInput},
 
     data() {
         return {
             form: this.$inertia.form({
-                name: '',
+                name: "",
             }),
-        }
+        };
     },
 
     methods: {
         cancel: function () {
-            this.$inertia.get('/dashboard');
+            this.$inertia.get("/dashboard");
         },
         submit: function () {
-            this.form.post('/groups', {
-                onSuccess: () => this.form.reset('name'),
+            this.form.post("/groups", {
+                onSuccess: () => this.form.reset("name"),
             });
         },
     },
-}
+};
 </script>

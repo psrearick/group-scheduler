@@ -2,7 +2,12 @@
     <button
         :type="type"
         :disabled="disabled"
-        :class="style + ' ' + flexType + ' items-center px-4 py-2 shadow-sm text-sm font-medium rounded-md focus:outline-none'"
+        :class="
+            style +
+            ' ' +
+            flexType +
+            ' items-center px-4 py-2 shadow-sm text-sm font-medium rounded-md focus:outline-none'
+        "
     >
         <slot>{{ text }}</slot>
     </button>
@@ -10,54 +15,52 @@
 
 <script>
 export default {
-    name: 'UiButton',
+    name: "UiButton",
 
     props: {
         text: {
             type: String,
-            default: ''
+            default: "",
         },
         buttonStyle: {
             type: String,
-            default: 'default'
+            default: "default",
         },
         flexType: {
             type: String,
-            default: ''
+            default: "",
         },
         type: {
             type: String,
-            default: 'button'
+            default: "button",
         },
         disabled: {
             type: Boolean,
-            default: false
-        }
+            default: false,
+        },
     },
 
     computed: {
-        style () {
-            if (this.buttonStyle === 'primary') {
+        style() {
+            if (this.buttonStyle === "primary") {
                 return "border border-primary-200 text-gray-700 bg-primary-400 hover:bg-primary-500";
             }
-            if (this.buttonStyle === 'secondary') {
+            if (this.buttonStyle === "secondary") {
                 return "border border-secondary-200 text-gray-700 bg-secondary-400 hover:bg-secondary-500";
             }
-            if (this.buttonStyle === 'warning') {
+            if (this.buttonStyle === "warning") {
                 return "border border-warning-200 text-gray-700 bg-warning-300 hover:bg-warning-500";
             }
-            if (this.buttonStyle === 'danger') {
+            if (this.buttonStyle === "danger") {
                 return "border border-danger-200 text-gray-700 bg-danger-400 hover:bg-danger-600";
             }
-            if (this.buttonStyle === 'white') {
+            if (this.buttonStyle === "white") {
                 return "border border-gray-200 text-gray-700 bg-white hover:bg-gray-100";
             }
             return "border border-gray-200 text-gray-700 bg-gray-100 hover:bg-gray-300";
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

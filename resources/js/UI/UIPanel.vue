@@ -16,29 +16,70 @@
                 aria-modal="true"
             >
                 <div class="absolute inset-0 overflow-hidden">
-                    <div
-                        class="absolute inset-0"
-                        aria-hidden="true"
-                    />
+                    <div class="absolute inset-0" aria-hidden="true" />
 
-                    <div class="absolute inset-y-0 right-0 pl-10 max-w-full flex">
+                    <div
+                        class="absolute inset-y-0 right-0 pl-10 max-w-full flex"
+                    >
                         <div class="w-screen max-w-md">
-                            <div class="h-full divide-y divide-gray-200 flex flex-col bg-white shadow-xl">
-                                <div class="min-h-0 flex-1 flex flex-col py-6 overflow-y-scroll">
+                            <div
+                                class="
+                                    h-full
+                                    divide-y divide-gray-200
+                                    flex flex-col
+                                    bg-white
+                                    shadow-xl
+                                "
+                            >
+                                <div
+                                    class="
+                                        min-h-0
+                                        flex-1 flex flex-col
+                                        py-6
+                                        overflow-y-scroll
+                                    "
+                                >
                                     <div class="px-4 sm:px-6">
-                                        <div class="flex items-start justify-between">
+                                        <div
+                                            class="
+                                                flex
+                                                items-start
+                                                justify-between
+                                            "
+                                        >
                                             <h2
                                                 id="slide-over-title"
-                                                class="text-lg font-medium text-gray-900"
+                                                class="
+                                                    text-lg
+                                                    font-medium
+                                                    text-gray-900
+                                                "
                                             >
                                                 {{ title }}
                                             </h2>
-                                            <div class="ml-3 h-7 flex items-center">
+                                            <div
+                                                class="
+                                                    ml-3
+                                                    h-7
+                                                    flex
+                                                    items-center
+                                                "
+                                            >
                                                 <button
-                                                    class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                                    class="
+                                                        bg-white
+                                                        rounded-md
+                                                        text-gray-400
+                                                        hover:text-gray-500
+                                                        focus:outline-none
+                                                        focus:ring-2
+                                                        focus:ring-indigo-500
+                                                    "
                                                     @click="showPanel(false)"
                                                 >
-                                                    <span class="sr-only">Close panel</span>
+                                                    <span class="sr-only"
+                                                        >Close panel</span
+                                                    >
                                                     <svg
                                                         class="h-6 w-6"
                                                         xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +98,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mt-6 relative flex-1 px-4 sm:px-6">
+                                    <div
+                                        class="
+                                            mt-6
+                                            relative
+                                            flex-1
+                                            px-4
+                                            sm:px-6
+                                        "
+                                    >
                                         <!-- Replace with your content -->
                                         <div class="h-full">
                                             <slot />
@@ -65,7 +114,15 @@
                                         <!-- /End replace -->
                                     </div>
                                 </div>
-                                <div class="flex-shrink-0 px-4 py-4 flex justify-between">
+                                <div
+                                    class="
+                                        flex-shrink-0
+                                        px-4
+                                        py-4
+                                        flex
+                                        justify-between
+                                    "
+                                >
                                     <UIButton
                                         v-if="form && clear"
                                         :text="clearText"
@@ -97,28 +154,27 @@
 </template>
 
 <script>
-
 import UIButton from "@/UI/UIButton";
 
 export default {
     name: "UiPanel",
 
     components: {
-        UIButton
+        UIButton,
     },
 
     props: {
         show: {
             type: Boolean,
-            default: false
+            default: false,
         },
         title: {
             type: String,
-            default: ''
+            default: "",
         },
         form: {
             type: Boolean,
-            default: true
+            default: true,
         },
         clear: {
             type: Boolean,
@@ -126,37 +182,37 @@ export default {
         },
         clearText: {
             type: String,
-            default: 'Clear'
+            default: "Clear",
         },
         closeText: {
             type: String,
-            default: 'Cancel'
+            default: "Cancel",
         },
         saveText: {
             type: String,
-            default: 'Save'
-        }
+            default: "Save",
+        },
     },
 
-    emits: ['update:show', 'clearForm', 'close', 'save'],
+    emits: ["update:show", "clearForm", "close", "save"],
 
-    data: function() {
+    data: function () {
         return {
             // panelVisible: this.show
-        }
+        };
     },
 
     methods: {
         showPanel(show) {
-            this.$emit('update:show', show);
+            this.$emit("update:show", show);
         },
         close() {
-            this.$emit('close');
+            this.$emit("close");
             this.showPanel(false);
         },
         save() {
-            this.$emit('save');
-        }
-    }
+            this.$emit("save");
+        },
+    },
 };
 </script>

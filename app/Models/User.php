@@ -65,13 +65,23 @@ class User extends Authenticatable
         'two_factor_secret',
     ];
 
+    public function events() : BelongsToMany
+    {
+        return $this->belongsToMany(Event::class);
+    }
+
     public function groups() : BelongsToMany
     {
         return $this->belongsToMany(Group::class);
     }
 
-    public function setUsernameAttribute($value)
+    public function setUsernameAttribute(?string $value) : void
     {
         $this->attributes['username'] = $value ?: Str::studly($this->attributes['name']);
+    }
+
+    public function tasks() : BelongsToMany
+    {
+        return $this->belongsToMany(Task::class);
     }
 }

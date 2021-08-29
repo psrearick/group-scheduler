@@ -211,6 +211,7 @@ export default {
             this.showPanel(false);
         },
         save() {
+            console.log("save");
             this.$emit("save");
         },
     },

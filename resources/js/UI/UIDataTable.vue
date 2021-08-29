@@ -39,7 +39,7 @@
                                     {{ field.text }}
                                 </th>
                                 <th
-                                    v-if="editUrl"
+                                    v-if="editable"
                                     scope="col"
                                     class="relative px-6 py-3"
                                 >
@@ -61,10 +61,23 @@
                                         text-gray-900
                                     "
                                 >
-                                    {{ row[field.field] }}
+                                    <Link
+                                        v-if="field.link || field.route"
+                                        :href="getUrl(field, row)"
+                                        class="
+                                            text-indigo-600
+                                            hover:text-indigo-900
+                                            cursor-pointer
+                                        "
+                                    >
+                                        {{ row[field.field] }}
+                                    </Link>
+                                    <p v-else>
+                                        {{ row[field.field] }}
+                                    </p>
                                 </td>
                                 <td
-                                    v-if="editUrl"
+                                    v-if="editable"
                                     class="
                                         px-6
                                         py-4
@@ -74,17 +87,17 @@
                                     "
                                 >
                                     <a
-                                        href="#"
                                         class="
                                             text-indigo-600
                                             hover:text-indigo-900
+                                            cursor-pointer
                                         "
-                                        >Edit</a
+                                        @click="$emit('edit', row)"
                                     >
+                                        Edit
+                                    </a>
                                 </td>
                             </tr>
-
-                            <!-- More people... -->
                         </tbody>
                     </table>
                 </div>
@@ -94,8 +107,12 @@
 </template>
 
 <script>
+import { Link } from "@inertiajs/inertia-vue3";
+
 export default {
     name: "UiDataTable",
+
+    components: { Link },
 
     props: {
         data: {
@@ -106,13 +123,17 @@ export default {
             type: Array,
             default: () => {},
         },
-        editUrl: {
-            type: String,
-            default: "",
+        editable: {
+            type: Boolean,
+            default: false,
         },
-        editField: {
-            type: String,
-            default: "",
+    },
+
+    methods: {
+        getUrl(field, data) {
+            return field.link
+                ? field.link.replace("{link}", data[field.link_field])
+                : route(field.route, data["route"]);
         },
     },
 };

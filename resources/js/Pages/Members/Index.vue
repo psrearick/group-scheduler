@@ -1,7 +1,7 @@
 <template>
     <group-layout>
         <template #boxed>
-            <div class="p-4">
+            <div class="p-0 md:p-4">
                 <div class="flex justify-between py-8">
                     <ui-button
                         type="button"

@@ -28,18 +28,7 @@
                     :id="name"
                     :type="getType()"
                     :name="name"
-                    class="
-                        border
-                        py-2
-                        focus:ring-indigo-500 focus:border-indigo-500
-                        block
-                        w-full
-                        pl-7
-                        pr-12
-                        sm:text-sm
-                        border-gray-300
-                        rounded-md
-                    "
+                    :class="inputClass()"
                     :placeholder="placeholder"
                     :autocomplete="name"
                     :required="required"
@@ -173,6 +162,14 @@ export default {
                 return "text";
             }
             return this.type;
+        },
+        inputClass() {
+            let inputClass =
+                "border py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full px-4 sm:text-sm border-gray-300 rounded-md";
+            if (this.disabled) {
+                inputClass += " bg-gray-100";
+            }
+            return inputClass;
         },
     },
 };

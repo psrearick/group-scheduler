@@ -24,6 +24,14 @@ class AppServiceProvider extends ServiceProvider
         Inertia::share('group', fn () => Session::get('group')
             ? Group::find(Session::get('group'))
             : null);
+
+//        dd(Session::get('group'));
+        Inertia::share('flash', function () {
+            return [
+                'success'   => Session::get('success'),
+                'error'     => Session::get('failure'),
+            ];
+        });
     }
 
     /**

@@ -3,6 +3,7 @@
         <Head :title="title" />
 
         <jet-banner />
+        <ui-flash />
 
         <div class="min-h-screen bg-gray-100">
             <nav class="bg-white border-b border-gray-100">
@@ -40,6 +41,22 @@
                                     :active="route().current('groups.members')"
                                 >
                                     Members
+                                </jet-nav-link>
+
+                                <jet-nav-link
+                                    v-if="$page.props.group"
+                                    :href="
+                                        route('groups.schedules.index', {
+                                            group: $page.props.group,
+                                        })
+                                    "
+                                    :active="
+                                        route().current(
+                                            'groups.schedules.index'
+                                        )
+                                    "
+                                >
+                                    Schedules
                                 </jet-nav-link>
                             </div>
                         </div>
@@ -422,6 +439,25 @@
                         >
                             Dashboard
                         </jet-responsive-nav-link>
+
+                        <jet-responsive-nav-link
+                            :href="route('groups.members')"
+                            :active="route().current('groups.members')"
+                        >
+                            Members
+                        </jet-responsive-nav-link>
+
+                        <jet-responsive-nav-link
+                            v-if="$page.props.group"
+                            :href="
+                                route('groups.schedules.index', {
+                                    group: $page.props.group,
+                                })
+                            "
+                            :active="route().current('groups.schedules.index')"
+                        >
+                            Schedules
+                        </jet-responsive-nav-link>
                     </div>
 
                     <!-- Responsive Settings Options -->
@@ -604,9 +640,11 @@ import JetDropdownLink from "@/Jetstream/DropdownLink.vue";
 import JetNavLink from "@/Jetstream/NavLink.vue";
 import JetResponsiveNavLink from "@/Jetstream/ResponsiveNavLink.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
+import UiFlash from "@/UI/UIFlash";
 
 export default {
     components: {
+        UiFlash,
         Head,
         JetApplicationMark,
         JetBanner,
@@ -618,7 +656,7 @@ export default {
     },
     props: {
         title: String,
-        default: '',
+        default: "",
     },
 
     data() {

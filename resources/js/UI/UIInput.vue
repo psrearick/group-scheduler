@@ -1,12 +1,7 @@
 <template>
     <div class="mt-1">
         <div>
-            <label :for="name" class="block text-sm font-medium text-gray-700">
-                {{ label }}
-                <span v-if="required" class="text-xs text-red-500"
-                    >(required)</span
-                >
-            </label>
+            <ui-input-label :name="name" :label="label" :required="required" />
             <div class="mt-1 relative rounded-md shadow-sm">
                 <div
                     v-if="before"
@@ -67,9 +62,10 @@
 </template>
 
 <script>
+import UiInputLabel from "@/UI/UIInputLabel";
 export default {
     name: "UiInput",
-
+    components: { UiInputLabel },
     props: {
         modelValue: {
             type: String,
@@ -165,7 +161,7 @@ export default {
         },
         inputClass() {
             let inputClass =
-                "border py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full px-4 sm:text-sm border-gray-300 rounded-md";
+                "border py-2 focus:ring-primary-500 focus:border-primary-500 block w-full px-4 sm:text-sm border-gray-300 rounded-md";
             if (this.disabled) {
                 inputClass += " bg-gray-100";
             }

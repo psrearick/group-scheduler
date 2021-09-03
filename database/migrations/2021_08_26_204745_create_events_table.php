@@ -7,6 +7,16 @@ use Illuminate\Support\Facades\Schema;
 class CreateEventsTable extends Migration
 {
     /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('events');
+    }
+
+    /**
      * Run the migrations.
      *
      * @return void
@@ -19,19 +29,10 @@ class CreateEventsTable extends Migration
             $table->text('description')->nullable();
             $table->foreignId('schedule_id')->nullable()->constrained();
             $table->foreignId('group_id')->constrained();
+            $table->foreignId('event_group_id')->constrained();
             $table->dateTime('date');
             $table->timestamps();
             $table->softDeletes();
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('events');
     }
 }

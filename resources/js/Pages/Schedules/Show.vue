@@ -30,7 +30,7 @@
                     <ui-button
                         type="button"
                         text="Create Events"
-                        button-style="secondary"
+                        button-style="primary"
                         @click="createEventsPanelShow(!createEventsShow)"
                     />
                 </div>
@@ -39,40 +39,51 @@
         <ui-panel
             :show="createEventsShow"
             :form="true"
-            :clear="true"
-            clear-text="Back"
+            :clear="false"
             title="Create Events"
-            save-text="Next"
+            save-text="Save"
             @update:show="createEventsPanelShow($event)"
             @close="closeCreateEventsPanel"
-            @save="nextStep"
-            @clearForm="previousStep"
+            @save="saveEvent"
         >
             <form>
-                <ui-input
-                    v-model.number="createEventsForm.event_quantity"
-                    name="quantity"
-                    type="number"
-                    :step="1"
-                    :required="true"
-                    label="How many events are you creating?"
+                <ui-radio
+                    v-model="recurringString"
+                    name="recurring"
+                    description="Will the event repeat?"
+                    :options="recurringOptions"
+                    color="primary"
                     class="mb-4"
-                    :min="1"
-                    :disabled="isQuantitySelected"
-                    :error-message="errorMessages.event_quantity"
+                    :required="true"
                 />
-                <div v-if="isQuantitySelected">
+                <div v-if="recurringString">
                     <ui-input
+                        v-model="createEventsForm.start_date"
                         name="date"
                         type="date"
                         :label="dateFieldLabel"
-                        :error-message="errorMessages.date"
-                        :disabled="!isDateStep"
+                        :error-message="errorMessages.start_date"
+                        class="mb-4"
+                        :required="true"
+                    />
+                    <ui-input
+                        v-if="isRecurring"
+                        v-model="createEventsForm.end_date"
+                        name="end_date"
+                        type="date"
+                        label="End Date"
+                        :error-message="errorMessages.end_date"
                         class="mb-4"
                     />
-                </div>
-                <div v-if="isRepetitionStep"></div>
-                <div v-if="isFinalStep">
+                    <ui-select-menu
+                        v-if="isRecurring"
+                        v-model:show="frequencyShow"
+                        v-model:selected="createEventsForm.frequency"
+                        label="Repeat Every"
+                        name="frequency"
+                        :options="frequencyOptions"
+                        class="mb-4"
+                    />
                     <ui-input
                         v-model="createEventsForm.name"
                         name="name"
@@ -102,13 +113,29 @@ import UiWell from "@/UI/UIWell";
 import UiButton from "@/UI/UIButton";
 import UiInput from "@/UI/UIInput";
 import UiPanel from "@/UI/UIPanel";
+import UiRadio from "@/UI/UIRadio";
+import UiTextArea from "@/UI/UITextArea";
+import UiSelectMenu from "@/UI/UISelectMenu";
 export default {
     name: "SchedulesShow",
 
-    components: { UiInput, UiButton, UiWell, UiPanel, GroupLayout },
+    components: {
+        UiSelectMenu,
+        UiRadio,
+        UiInput,
+        UiButton,
+        UiWell,
+        UiPanel,
+        UiTextArea,
+        GroupLayout,
+    },
 
     props: {
         schedule: {
+            type: Object,
+            default: () => {},
+        },
+        errors: {
             type: Object,
             default: () => {},
         },
@@ -117,80 +144,99 @@ export default {
     data() {
         return {
             createEventsForm: {
-                event_quantity: 0,
                 name: "",
                 description: "",
+                recurring: false,
+                start_date: null,
+                end_date: null,
+                frequency: "",
+                schedule_id: null,
             },
             errorMessages: {},
             createEventsShow: false,
-            step: 0,
+            recurringOptions: [
+                {
+                    id: "recurring-recurring",
+                    option_name: "recurring-recurring",
+                    label: "Recurring Event",
+                },
+                {
+                    id: "recurring-onetime",
+                    option_name: "recurring-onetime",
+                    label: "Single Event",
+                },
+            ],
+            recurringString: "",
+            frequencyOptions: [
+                {
+                    label: "Day",
+                    id: "day",
+                },
+                {
+                    label: "Week",
+                    id: "week",
+                },
+                {
+                    label: "Month",
+                    id: "month",
+                },
+                {
+                    label: "Year",
+                    id: "year",
+                },
+            ],
+            frequencyShow: false,
         };
     },
 
     computed: {
-        isQuantitySelected: function () {
-            return this.step > 0;
-        },
-        isDateStep: function () {
-            return this.step === 1;
-        },
-        isRepetitionStep: function () {
-            return this.step === 2;
-        },
-        isFinalStep: function () {
-            return this.step === 4;
-        },
         dateFieldLabel: function () {
-            return this.createEventsForm.event_quantity > 1
-                ? "Start Date"
-                : "Date";
+            return this.isRecurring ? "Start Date" : "Date";
+        },
+        isRecurring: function () {
+            return this.recurringString === "recurring-recurring";
+        },
+    },
+
+    watch: {
+        errors: function (newVal) {
+            this.errorMessages = newVal;
         },
     },
 
     methods: {
-        nextStep() {
-            if (this.step === 0) {
-                return this.handleFirstStep();
-            }
-        },
-        previousStep() {
-            if (this.step === 1) {
-                this.decrement();
-            }
-        },
-        increment() {
-            ++this.step;
-        },
-        decrement() {
-            --this.step;
-        },
-        handleFirstStep() {
-            if (!this.updateQuantity()) {
-                return;
-            }
-            // if (this.createEventsForm.event_quantity === 1) {
-            //     this.step = 3;
-            //     return;
-            // }
-            this.step = 1;
-        },
-        updateQuantity() {
-            if (this.createEventsForm.event_quantity < 1) {
-                this.errorMessages.event_quantity =
-                    "Quantity must be greater than zero";
-                return false;
-            }
-            this.errorMessages.event_quantity = null;
-            this.increment();
-            return true;
-        },
         createEventsPanelShow(show) {
             this.createEventsShow = show;
         },
+        clearForm() {
+            this.createEventsForm = {
+                name: "",
+                description: "",
+                recurring: false,
+                start_date: null,
+                end_date: null,
+                frequency: "",
+                schedule_id: null,
+            };
+        },
         closeCreateEventsPanel() {
-            this.createEventsForm = {};
+            this.clearForm();
             this.errorMessage = {};
-            this.quantitySelected = false;
+        },
+        saveEvent() {
+            let self = this;
+            this.createEventsForm.schedule_id = this.schedule.id;
+            this.createEventsForm.recurring = this.isRecurring;
+            this.$inertia.post(
+                "/groups/" + this.schedule.group_id + "/events",
+                this.createEventsForm,
+                {
+                    onSuccess: () => {
+                        self.closeCreateEventsPanel();
+                    },
+                    only: ["schedule"],
+                }
+            );
         },
     },
 };

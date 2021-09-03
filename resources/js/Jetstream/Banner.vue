@@ -3,7 +3,7 @@
         <div
             v-if="show && message"
             :class="{
-                'bg-indigo-500': style == 'success',
+                'bg-primary-500': style == 'success',
                 'bg-red-700': style == 'danger',
             }"
         >
@@ -13,7 +13,7 @@
                         <span
                             class="flex p-2 rounded-lg"
                             :class="{
-                                'bg-indigo-600': style == 'success',
+                                'bg-primary-600': style == 'success',
                                 'bg-red-600': style == 'danger',
                             }"
                         >
@@ -68,7 +68,7 @@
                                 transition
                             "
                             :class="{
-                                'hover:bg-indigo-600 focus:bg-indigo-600':
+                                'hover:bg-primary-600 focus:bg-primary-600':
                                     style == 'success',
                                 'hover:bg-red-600 focus:bg-red-600':
                                     style == 'danger',

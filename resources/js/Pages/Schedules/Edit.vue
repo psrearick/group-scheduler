@@ -32,7 +32,7 @@
                     <ui-button
                         type="button"
                         text="Create Events"
-                        button-style="secondary"
+                        button-style="primary"
                         @click="createEventsPanelShow(!createEventsShow)"
                     />
                 </div>

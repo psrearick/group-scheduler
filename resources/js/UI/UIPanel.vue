@@ -73,7 +73,7 @@
                                                         hover:text-gray-500
                                                         focus:outline-none
                                                         focus:ring-2
-                                                        focus:ring-indigo-500
+                                                        focus:ring-primary-500
                                                     "
                                                     @click="showPanel(false)"
                                                 >
@@ -123,12 +123,6 @@
                                         justify-between
                                     "
                                 >
-                                    <UIButton
-                                        v-if="form && clear"
-                                        :text="clearText"
-                                        button-style="secondary"
-                                        @click="$emit('clearForm')"
-                                    />
                                     <div>
                                         <UIButton
                                             :text="closeText"
@@ -136,8 +130,16 @@
                                             @click="close"
                                         />
                                         <UIButton
-                                            v-if="form"
+                                            v-if="form && clear"
+                                            :text="clearText"
                                             class="ml-2"
+                                            button-style="secondary"
+                                            @click="$emit('clearForm')"
+                                        />
+                                    </div>
+                                    <div>
+                                        <UIButton
+                                            v-if="form"
                                             :text="saveText"
                                             button-style="primary"
                                             @click="save"
@@ -211,7 +213,6 @@ export default {
             this.showPanel(false);
         },
         save() {
-            console.log("save");
             this.$emit("save");
         },
     },

@@ -2,16 +2,11 @@
     <div>
         <div
             v-if="show"
-            class="fixed w-full h-full z-40"
-            @click="$emit('close')"
+            class="fixed w-full h-full z-40 top-0 left-0"
+            @click="toggleShow"
         ></div>
         <div class="z-50">
-            <label
-                id="listbox-label"
-                class="block text-sm font-medium text-gray-700"
-            >
-                {{ label }}
-            </label>
+            <ui-input-label :label="label" />
             <div class="mt-1 relative">
                 <button
                     type="button"
@@ -29,16 +24,16 @@
                         cursor-default
                         focus:outline-none
                         focus:ring-1
-                        focus:ring-indigo-500
-                        focus:border-indigo-500
+                        focus:ring-primary-500
+                        focus:border-primary-500
                         sm:text-sm
                     "
                     aria-haspopup="listbox"
                     aria-expanded="true"
-                    aria-labelledby="listbox-label"
+                    @click="toggleShow"
                 >
                     <span class="block truncate">
-                        {{ selected.label }}
+                        {{ selectedLabel || placeholder }}
                     </span>
                     <span
                         class="
@@ -76,7 +71,7 @@
                         v-show="show"
                         class="
                             absolute
-                            z-10
+                            z-50
                             mt-1
                             w-full
                             bg-white
@@ -92,16 +87,16 @@
                         "
                         tabindex="-1"
                         role="listbox"
-                        aria-labelledby="listbox-label"
                     >
                         <li
                             v-for="(option, index) in options"
                             :id="name + '-' + index"
                             :key="index"
-                            :class="liClass(index)"
+                            :class="liClass(index, option)"
                             role="option"
-                            @mouseenter="mouseOn(option)"
-                            @mouseleave="mouseOff(option)"
+                            @mouseenter="mouseOn(index)"
+                            @mouseleave="mouseOff()"
+                            @click="select(option)"
                         >
                             <span
                                 :class="
@@ -139,8 +134,11 @@
 </template>
 
 <script>
+import UiInputLabel from "@/UI/UIInputLabel";
 export default {
     name: "UiSelectMenu",
+
+    components: { UiInputLabel },
 
     props: {
         label: {
@@ -159,11 +157,17 @@ export default {
             type: Boolean,
             default: false,
         },
+        placeholder: {
+            type: String,
+            default: "Select...",
+        },
         selected: {
             type: Object,
             default: () => {},
         },
     },
+
+    emits: ["update:selected", "update:show"],
 
     data() {
         return {
@@ -171,29 +175,45 @@ export default {
         };
     },
 
+    computed: {
+        selectedLabel() {
+            let filtered = this.options.filter((option) => {
+                return option.id === this.selected;
+            });
+            return filtered.length ? filtered[0].label : null;
+        },
+    },
+
     methods: {
         isSelected(option) {
-            return selected.id === option.id;
+            return this.selected === option.id;
         },
         mouseOn(index) {
             this.mouse = index;
         },
-        mouseOff(option) {
+        mouseOff() {
             this.mouse = null;
         },
-        liClass(index) {
+        liClass(index, option) {
             return (
-                (this.mouse === index
-                    ? "text-white bg-indigo-600"
+                (this.mouse === index || this.isSelected(option)
+                    ? "text-white bg-primary-600"
                     : "text-gray-900") +
                 " cursor-default select-none relative py-2 pl-3 pr-9"
             );
         },
         checkmarkClass(index) {
             return (
-                (this.mouse === index ? "text-indigo-600" : "text-white") +
+                (this.mouse === index ? "text-primary-600" : "text-white") +
                 " absolute inset-y-0 right-0 flex items-center pr-4"
             );
+        },
+        toggleShow() {
+            this.$emit("update:show", !this.show);
+        },
+        select(option) {
+            this.toggleShow();
+            this.$emit("update:selected", option.id);
         },
     },
 };

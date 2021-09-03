@@ -21,7 +21,8 @@ class ScheduleController extends Controller
             'group'     => $group,
         ]);
     }
-    public function index(): Response
+
+    public function index() : Response
     {
         return Inertia::render('Schedules/Index', [
             'schedules' => Schedule
@@ -49,7 +50,7 @@ class ScheduleController extends Controller
         return Redirect::back();
     }
 
-    public function update(Schedule $schedule, StoreScheduleRequest $request) : RedirectResponse
+    public function update(StoreScheduleRequest $request, Group $group, Schedule $schedule) : RedirectResponse
     {
         $schedule->update(
             [

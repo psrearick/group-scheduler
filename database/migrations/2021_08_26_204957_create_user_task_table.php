@@ -7,6 +7,16 @@ use Illuminate\Support\Facades\Schema;
 class CreateUserTaskTable extends Migration
 {
     /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('member_task');
+    }
+
+    /**
      * Run the migrations.
      *
      * @return void
@@ -20,15 +30,5 @@ class CreateUserTaskTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('member_task');
     }
 }

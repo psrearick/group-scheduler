@@ -64,12 +64,12 @@
                                 items-center
                                 text-sm
                                 font-semibold
-                                text-indigo-700
+                                text-primary-700
                             "
                         >
                             <div>Explore the documentation</div>
 
-                            <div class="ml-1 text-indigo-500">
+                            <div class="ml-1 text-primary-500">
                                 <svg
                                     viewBox="0 0 20 20"
                                     fill="currentColor"
@@ -131,12 +131,12 @@
                                 items-center
                                 text-sm
                                 font-semibold
-                                text-indigo-700
+                                text-primary-700
                             "
                         >
                             <div>Start watching Laracasts</div>
 
-                            <div class="ml-1 text-indigo-500">
+                            <div class="ml-1 text-primary-500">
                                 <svg
                                     viewBox="0 0 20 20"
                                     fill="currentColor"

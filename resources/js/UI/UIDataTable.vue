@@ -65,9 +65,10 @@
                                         v-if="field.link || field.route"
                                         :href="getUrl(field, row)"
                                         class="
-                                            text-indigo-600
-                                            hover:text-indigo-900
+                                            text-primary-600
+                                            hover:text-primary-900
                                             cursor-pointer
+                                            font-semibold
                                         "
                                     >
                                         {{ row[field.field] }}
@@ -88,8 +89,8 @@
                                 >
                                     <a
                                         class="
-                                            text-indigo-600
-                                            hover:text-indigo-900
+                                            text-secondary-600
+                                            hover:text-secondary-900
                                             cursor-pointer
                                         "
                                         @click="$emit('edit', row)"

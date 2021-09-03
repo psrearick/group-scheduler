@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique()->nullable();
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->rememberToken();
             $table->string('phone_number')->nullable();
             $table->string('groupme_username')->nullable();

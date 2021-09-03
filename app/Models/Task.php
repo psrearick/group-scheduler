@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Task extends Model
 {
-    public function group() : BelongsTo
-    {
-        return $this->belongsTo(Group::class);
-    }
-
     public function event() : BelongsTo
     {
         return $this->belongsTo(Event::class);
+    }
+
+    public function group() : BelongsTo
+    {
+        return $this->belongsTo(Group::class);
     }
 
     public function members() : BelongsToMany

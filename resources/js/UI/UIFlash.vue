@@ -218,7 +218,6 @@ export default {
     },
 
     mounted() {
-        console.log(this.$page.props);
         this.show =
             !!this.$page.props.flash.error || !!this.$page.props.flash.success;
     },

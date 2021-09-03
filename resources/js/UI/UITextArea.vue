@@ -1,12 +1,7 @@
 <template>
     <div class="mt-1">
         <div>
-            <label :for="name" class="block text-sm font-medium text-gray-700">
-                {{ label }}
-                <span v-if="required" class="text-xs text-red-500"
-                    >(required)</span
-                >
-            </label>
+            <ui-input-label :name="name" :label="label" :required="required" />
             <div class="mt-1 relative rounded-md shadow-sm">
                 <textarea
                     :id="name"
@@ -15,7 +10,7 @@
                     class="
                         border
                         py-2
-                        focus:ring-indigo-500 focus:border-indigo-500
+                        focus:ring-primary-500 focus:border-primary-500
                         block
                         w-full
                         pl-7
@@ -42,9 +37,10 @@
 </template>
 
 <script>
+import UiInputLabel from "@/UI/UIInputLabel";
 export default {
     name: "UiTextArea",
-
+    components: { UiInputLabel },
     props: {
         modelValue: {
             type: String,

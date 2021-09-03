@@ -27,6 +27,7 @@ class RequestsValidGroup
 //            dd('test');
             return Redirect::route('dashboard')->with('failure', 'Invalid group');
         }
+
         return $next($request);
     }
 }

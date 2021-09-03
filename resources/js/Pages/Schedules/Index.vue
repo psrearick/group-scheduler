@@ -6,7 +6,7 @@
                     <ui-button
                         type="button"
                         text="Create Schedule"
-                        button-style="secondary"
+                        button-style="primary"
                         @click="createScheduleShow(!createPanelShow)"
                     />
                 </div>
@@ -21,13 +21,12 @@
         <ui-panel
             :show="createPanelShow"
             :form="true"
-            :clear="true"
+            :clear="false"
             :title="action + ' Schedule'"
             :save-text="action"
             @update:show="createScheduleShow($event)"
             @close="closeSchedulePanel"
-            @save="createSchedule"
-            @clearForm="closeSchedulePanel"
+            @save="submitSchedule"
         >
             <p class="text-gray-500 text-sm py-4">{{ action }} a schedule</p>
             <form>
@@ -110,6 +109,12 @@ export default {
         };
     },
 
+    watch: {
+        errors: function (newVal) {
+            this.errorMessages = newVal;
+        },
+    },
+
     methods: {
         closeSchedulePanel() {
             this.createScheduleForm = {
@@ -124,16 +129,33 @@ export default {
             this.createPanelShow = show;
         },
 
+        submitSchedule() {
+            if (this.createScheduleForm.id) {
+                this.updateSchedule();
+                return;
+            }
+            this.createSchedule();
+        },
+
         createSchedule() {
             let self = this;
+            let url = "/groups/" + this.group.id + "/schedules";
+            this.$inertia.post(url, this.createScheduleForm, {
+                onSuccess: function () {
+                    self.closeSchedulePanel();
+                    self.createScheduleShow(false);
+                },
+            });
+        },
+
+        updateSchedule() {
+            let self = this;
             let url =
-                "/groups" +
+                "/groups/" +
                 this.group.id +
                 "/schedules/" +
-                this.createScheduleForm.id
-                    ? this.createScheduleForm.id
-                    : "";
-            this.$inertia.post(url, this.createScheduleForm, {
+                this.createScheduleForm.id;
+            this.$inertia.patch(url, this.createScheduleForm, {
                 onSuccess: function () {
                     self.closeSchedulePanel();
                     self.createScheduleShow(false);

@@ -6,13 +6,13 @@
                     <ui-button
                         type="button"
                         text="Add Existing User"
-                        button-style="secondary"
+                        button-style="primary"
                         @click="addUserShow(!addPanelShow)"
                     ></ui-button>
                     <ui-button
                         type="button"
                         text="Create User for Group"
-                        button-style="secondary"
+                        button-style="primary"
                         @click="createUserShow(!createPanelShow)"
                     ></ui-button>
                 </div>

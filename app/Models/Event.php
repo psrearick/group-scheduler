@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Event extends Model
 {
-    public function schedule() : BelongsTo
+    public function eventGroup() : BelongsTo
     {
-        return $this->belongsTo(Schedule::class);
+        return $this->belongsTo(EventGroup::class);
     }
 
     public function group() : BelongsTo
@@ -22,6 +21,11 @@ class Event extends Model
     public function members() : BelongsToMany
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function schedule() : BelongsTo
+    {
+        return $this->belongsTo(Schedule::class);
     }
 
     public function tasks() : HasMany

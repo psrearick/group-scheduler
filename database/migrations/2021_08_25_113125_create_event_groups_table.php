@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSchedulesTable extends Migration
+class CreateEventGroupsTable extends Migration
 {
     /**
      * Reverse the migrations.
@@ -13,7 +13,7 @@ class CreateSchedulesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('schedules');
+        Schema::dropIfExists('event_groups');
     }
 
     /**
@@ -23,10 +23,8 @@ class CreateSchedulesTable extends Migration
      */
     public function up()
     {
-        Schema::create('schedules', function (Blueprint $table) {
+        Schema::create('event_groups', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
             $table->foreignId('group_id')->constrained();
             $table->timestamps();
             $table->softDeletes();

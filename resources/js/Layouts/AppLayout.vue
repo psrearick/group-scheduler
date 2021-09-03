@@ -13,11 +13,7 @@
                         <div class="flex">
                             <!-- Logo -->
                             <div class="flex-shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
-                                    <jet-application-mark
-                                        class="block h-9 w-auto"
-                                    />
-                                </Link>
+                                <link-logo :href="route('dashboard')" />
                             </div>
 
                             <!-- Navigation Links -->
@@ -633,7 +629,6 @@
 </template>
 
 <script>
-import JetApplicationMark from "@/Jetstream/ApplicationMark.vue";
 import JetBanner from "@/Jetstream/Banner.vue";
 import JetDropdown from "@/Jetstream/Dropdown.vue";
 import JetDropdownLink from "@/Jetstream/DropdownLink.vue";
@@ -641,12 +636,13 @@ import JetNavLink from "@/Jetstream/NavLink.vue";
 import JetResponsiveNavLink from "@/Jetstream/ResponsiveNavLink.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import UiFlash from "@/UI/UIFlash";
+import LinkLogo from "@/Components/LinkLogo";
 
 export default {
     components: {
+        LinkLogo,
         UiFlash,
         Head,
-        JetApplicationMark,
         JetBanner,
         JetDropdown,
         JetDropdownLink,
@@ -655,8 +651,10 @@ export default {
         Link,
     },
     props: {
-        title: String,
-        default: "",
+        title: {
+            type: String,
+            default: "",
+        },
     },
 
     data() {

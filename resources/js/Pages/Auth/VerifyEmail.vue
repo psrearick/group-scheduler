@@ -1,9 +1,9 @@
 <template>
     <Head title="Email Verification" />
 
-    <jet-authentication-card>
+    <card-centered title="Email Verification">
         <template #logo>
-            <jet-authentication-card-logo />
+            <link-logo-large />
         </template>
 
         <div class="mb-4 text-sm text-gray-600">
@@ -38,20 +38,20 @@
                 >
             </div>
         </form>
-    </jet-authentication-card>
+    </card-centered>
 </template>
 
 <script>
-import JetAuthenticationCard from "@/Jetstream/AuthenticationCard.vue";
-import JetAuthenticationCardLogo from "@/Jetstream/AuthenticationCardLogo.vue";
 import JetButton from "@/Jetstream/Button.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
+import LinkLogoLarge from "@/Components/LinkLogoLarge";
+import CardCentered from "@/Components/CardCentered";
 
 export default {
     components: {
+        CardCentered,
+        LinkLogoLarge,
         Head,
-        JetAuthenticationCard,
-        JetAuthenticationCardLogo,
         JetButton,
         Link,
     },

@@ -35,17 +35,13 @@
                             v-for="permission in availablePermissions"
                             :key="permission"
                         >
-                            <label class="flex items-center">
-                                <jet-checkbox
-                                    v-model:checked="
-                                        createApiTokenForm.permissions
-                                    "
-                                    :value="permission"
-                                />
-                                <span class="ml-2 text-sm text-gray-600">{{
-                                    permission
-                                }}</span>
-                            </label>
+                            <ui-checkbox
+                                v-model:checked="
+                                    createApiTokenForm.permissions
+                                "
+                                :value="permission"
+                                :label="permission"
+                            />
                         </div>
                     </div>
                 </div>
@@ -183,15 +179,11 @@
                         v-for="permission in availablePermissions"
                         :key="permission"
                     >
-                        <label class="flex items-center">
-                            <jet-checkbox
-                                v-model:checked="updateApiTokenForm.permissions"
-                                :value="permission"
-                            />
-                            <span class="ml-2 text-sm text-gray-600">{{
-                                permission
-                            }}</span>
-                        </label>
+                        <ui-checkbox
+                            v-model:checked="updateApiTokenForm.permissions"
+                            :value="permission"
+                            :label="permission"
+                        />
                     </div>
                 </div>
             </template>
@@ -250,14 +242,15 @@ import JetDangerButton from "@/Jetstream/DangerButton.vue";
 import JetDialogModal from "@/Jetstream/DialogModal.vue";
 import JetFormSection from "@/Jetstream/FormSection.vue";
 import JetInput from "@/Jetstream/Input.vue";
-import JetCheckbox from "@/Jetstream/Checkbox.vue";
 import JetInputError from "@/Jetstream/InputError.vue";
 import JetLabel from "@/Jetstream/Label.vue";
 import JetSecondaryButton from "@/Jetstream/SecondaryButton.vue";
 import JetSectionBorder from "@/Jetstream/SectionBorder.vue";
+import UiCheckbox from "@/UI/UICheckbox";
 
 export default {
     components: {
+        UiCheckbox,
         JetActionMessage,
         JetActionSection,
         JetButton,

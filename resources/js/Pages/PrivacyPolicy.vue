@@ -5,7 +5,7 @@
         <div class="pt-4 bg-gray-100">
             <div class="min-h-screen flex flex-col items-center pt-6 sm:pt-0">
                 <div>
-                    <jet-authentication-card-logo />
+                    <link-logo-large />
                 </div>
 
                 <div
@@ -29,12 +29,12 @@
 
 <script>
 import { Head } from "@inertiajs/inertia-vue3";
-import JetAuthenticationCardLogo from "@/Jetstream/AuthenticationCardLogo.vue";
+import LinkLogoLarge from "@/Components/LinkLogoLarge";
 
 export default {
     components: {
+        LinkLogoLarge,
         Head,
-        JetAuthenticationCardLogo,
     },
     props: ["policy"],
 };

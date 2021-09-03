@@ -1,9 +1,9 @@
 <template>
     <Head title="Forgot Password" />
 
-    <jet-authentication-card>
+    <card-centered title="Forgot Password">
         <template #logo>
-            <jet-authentication-card-logo />
+            <link-logo-large />
         </template>
 
         <div class="mb-4 text-sm text-gray-600">
@@ -16,52 +16,58 @@
             {{ status }}
         </div>
 
-        <jet-validation-errors class="mb-4" />
+        <validation-errors class="mb-4" />
 
         <form @submit.prevent="submit">
             <div>
-                <jet-label for="email" value="Email" />
-                <jet-input
-                    id="email"
+                <ui-input
                     v-model="form.email"
+                    name="email"
+                    label="Email"
                     type="email"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
+                    :required="true"
+                    :autofocus="true"
                 />
             </div>
 
             <div class="flex items-center justify-between mt-4">
-                <jet-button>Cancel</jet-button>
-                <jet-button
+                <Link :href="route('login')"
+                    ><ui-button button-style="danger">Cancel</ui-button></Link
+                >
+                <ui-button
+                    type="submit"
+                    button-style="primary"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
                     Email Password Reset Link
-                </jet-button>
+                </ui-button>
             </div>
         </form>
-    </jet-authentication-card>
+    </card-centered>
 </template>
 
 <script>
-import { Head } from "@inertiajs/inertia-vue3";
-import JetAuthenticationCard from "@/Jetstream/AuthenticationCard.vue";
-import JetAuthenticationCardLogo from "@/Jetstream/AuthenticationCardLogo.vue";
-import JetButton from "@/Jetstream/Button.vue";
+import { Head, Link } from "@inertiajs/inertia-vue3";
 import JetInput from "@/Jetstream/Input.vue";
 import JetLabel from "@/Jetstream/Label.vue";
-import JetValidationErrors from "@/Jetstream/ValidationErrors.vue";
+import LinkLogoLarge from "@/Components/LinkLogoLarge";
+import CardCentered from "@/Components/CardCentered";
+import ValidationErrors from "@/Components/ValidationErrors";
+import UiButton from "@/UI/UIButton";
+import UiInput from "@/UI/UIInput";
 
 export default {
     components: {
+        UiInput,
+        UiButton,
+        ValidationErrors,
+        CardCentered,
+        LinkLogoLarge,
         Head,
-        JetAuthenticationCard,
-        JetAuthenticationCardLogo,
-        JetButton,
+        Link,
         JetInput,
         JetLabel,
-        JetValidationErrors,
     },
 
     props: {

@@ -19,6 +19,6 @@ class DashboardController extends Controller
             ? Inertia::render('Groups/Show')
             : (Auth::check()
                 ? Inertia::render('Dashboard')
-                : Inertia::render('Welcome'));
+                : Inertia::render('Auth/Login'));
     }
 }

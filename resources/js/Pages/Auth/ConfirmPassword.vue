@@ -1,9 +1,9 @@
 <template>
     <Head title="Secure Area" />
 
-    <jet-authentication-card>
+    <card-centered title="Confirm Password">
         <template #logo>
-            <jet-authentication-card-logo />
+            <link-logo-large />
         </template>
 
         <div class="mb-4 text-sm text-gray-600">
@@ -11,7 +11,7 @@
             password before continuing.
         </div>
 
-        <jet-validation-errors class="mb-4" />
+        <validation-errors class="mb-4" />
 
         <form @submit.prevent="submit">
             <div>
@@ -37,27 +37,27 @@
                 </jet-button>
             </div>
         </form>
-    </jet-authentication-card>
+    </card-centered>
 </template>
 
 <script>
 import { Head } from "@inertiajs/inertia-vue3";
-import JetAuthenticationCard from "@/Jetstream/AuthenticationCard.vue";
-import JetAuthenticationCardLogo from "@/Jetstream/AuthenticationCardLogo.vue";
 import JetButton from "@/Jetstream/Button.vue";
 import JetInput from "@/Jetstream/Input.vue";
 import JetLabel from "@/Jetstream/Label.vue";
-import JetValidationErrors from "@/Jetstream/ValidationErrors.vue";
+import LinkLogoLarge from "@/Components/LinkLogoLarge";
+import CardCentered from "@/Components/CardCentered";
+import ValidationErrors from "@/Components/ValidationErrors";
 
 export default {
     components: {
+        ValidationErrors,
+        CardCentered,
+        LinkLogoLarge,
         Head,
-        JetAuthenticationCard,
-        JetAuthenticationCardLogo,
         JetButton,
         JetInput,
         JetLabel,
-        JetValidationErrors,
     },
 
     data() {

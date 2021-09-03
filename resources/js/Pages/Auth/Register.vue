@@ -1,12 +1,12 @@
 <template>
     <Head title="Register" />
 
-    <jet-authentication-card>
+    <card-centered title="Register">
         <template #logo>
-            <jet-authentication-card-logo />
+            <link-logo-large />
         </template>
 
-        <jet-validation-errors class="mb-4" />
+        <validation-errors class="mb-4" />
 
         <form @submit.prevent="submit">
             <div>
@@ -64,14 +64,8 @@
                 v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature"
                 class="mt-4"
             >
-                <jet-label for="terms">
-                    <div class="flex items-center">
-                        <jet-checkbox
-                            id="terms"
-                            v-model:checked="form.terms"
-                            name="terms"
-                        />
-
+                <div class="flex items-center">
+                    <ui-checkbox v-model:checked="form.terms" name="terms">
                         <div class="ml-2">
                             I agree to the
                             <a
@@ -96,8 +90,8 @@
                                 >Privacy Policy</a
                             >
                         </div>
-                    </div>
-                </jet-label>
+                    </ui-checkbox>
+                </div>
             </div>
 
             <div class="flex items-center justify-end mt-4">
@@ -117,29 +111,29 @@
                 </jet-button>
             </div>
         </form>
-    </jet-authentication-card>
+    </card-centered>
 </template>
 
 <script>
-import JetAuthenticationCard from "@/Jetstream/AuthenticationCard.vue";
-import JetAuthenticationCardLogo from "@/Jetstream/AuthenticationCardLogo.vue";
 import JetButton from "@/Jetstream/Button.vue";
 import JetInput from "@/Jetstream/Input.vue";
-import JetCheckbox from "@/Jetstream/Checkbox.vue";
 import JetLabel from "@/Jetstream/Label.vue";
-import JetValidationErrors from "@/Jetstream/ValidationErrors.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
+import LinkLogoLarge from "@/Components/LinkLogoLarge";
+import CardCentered from "@/Components/CardCentered";
+import ValidationErrors from "@/Components/ValidationErrors";
+import UiCheckbox from "@/UI/UICheckbox";
 
 export default {
     components: {
+        UiCheckbox,
+        ValidationErrors,
+        CardCentered,
+        LinkLogoLarge,
         Head,
-        JetAuthenticationCard,
-        JetAuthenticationCardLogo,
         JetButton,
         JetInput,
-        JetCheckbox,
         JetLabel,
-        JetValidationErrors,
         Link,
     },
 

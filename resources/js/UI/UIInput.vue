@@ -27,6 +27,7 @@
                     :placeholder="placeholder"
                     :autocomplete="name"
                     :required="required"
+                    :autofocus="autofocus"
                     :disabled="disabled"
                     :value="value"
                     :min="min"
@@ -88,6 +89,10 @@ export default {
             default: "",
         },
         required: {
+            type: Boolean,
+            default: false,
+        },
+        autofocus: {
             type: Boolean,
             default: false,
         },

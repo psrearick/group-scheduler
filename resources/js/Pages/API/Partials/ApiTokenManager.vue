@@ -259,7 +259,6 @@ export default {
         JetDialogModal,
         JetFormSection,
         JetInput,
-        JetCheckbox,
         JetInputError,
         JetLabel,
         JetSecondaryButton,

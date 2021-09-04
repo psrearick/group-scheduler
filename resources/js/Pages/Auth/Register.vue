@@ -6,59 +6,47 @@
             <link-logo-large />
         </template>
 
-        <validation-errors class="mb-4" />
-
         <form @submit.prevent="submit">
-            <div>
-                <jet-label for="name" value="Name" />
-                <jet-input
-                    id="name"
-                    v-model="form.name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                    autocomplete="name"
-                />
-            </div>
+            <ui-input
+                v-model="form.name"
+                class="mb-4"
+                name="name"
+                label="Name"
+                :required="true"
+                :autofocus="true"
+                :error-message="$page.props.errors.name"
+            />
 
-            <div class="mt-4">
-                <jet-label for="email" value="Email" />
-                <jet-input
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    required
-                />
-            </div>
+            <ui-input
+                v-model="form.email"
+                class="mb-4"
+                name="email"
+                label="Email"
+                type="email"
+                :required="true"
+                :error-message="$page.props.errors.email"
+            />
 
-            <div class="mt-4">
-                <jet-label for="password" value="Password" />
-                <jet-input
-                    id="password"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-            </div>
+            <ui-input
+                v-model="form.password"
+                class="mb-4"
+                name="password"
+                label="Password"
+                type="password"
+                :required="true"
+                :error-message="$page.props.errors.password"
+                autocomplete="new-password"
+            />
 
-            <div class="mt-4">
-                <jet-label
-                    for="password_confirmation"
-                    value="Confirm Password"
-                />
-                <jet-input
-                    id="password_confirmation"
-                    v-model="form.password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-            </div>
+            <ui-input
+                name="password_confirmation"
+                v-model="form.password_confirmation"
+                type="password"
+                label="Confirm Password"
+                :required="true"
+                :error-message="$page.props.errors.password_confirmation"
+                autocomplete="new-password"
+            />
 
             <div
                 v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature"
@@ -102,38 +90,38 @@
                     Already registered?
                 </Link>
 
-                <jet-button
+                <ui-button
+                    type="submit"
+                    button-style="primary"
                     class="ml-4"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
                     Register
-                </jet-button>
+                </ui-button>
             </div>
         </form>
     </card-centered>
 </template>
 
 <script>
-import JetButton from "@/Jetstream/Button.vue";
-import JetInput from "@/Jetstream/Input.vue";
-import JetLabel from "@/Jetstream/Label.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import LinkLogoLarge from "@/Components/LinkLogoLarge";
 import CardCentered from "@/Components/CardCentered";
 import ValidationErrors from "@/Components/ValidationErrors";
 import UiCheckbox from "@/UI/UICheckbox";
+import UiButton from "@/UI/UIButton";
+import UiInput from "@/UI/UIInput";
 
 export default {
     components: {
+        UiInput,
+        UiButton,
         UiCheckbox,
         ValidationErrors,
         CardCentered,
         LinkLogoLarge,
         Head,
-        JetButton,
-        JetInput,
-        JetLabel,
         Link,
     },
 

@@ -84,7 +84,6 @@
 </template>
 
 <script>
-import JetLabel from "@/Jetstream/Label.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import LinkLogoLarge from "@/Components/LinkLogoLarge";
 import CardCentered from "@/Components/CardCentered";
@@ -102,7 +101,6 @@ export default {
         CardCentered,
         LinkLogoLarge,
         Head,
-        JetLabel,
         Link,
     },
 

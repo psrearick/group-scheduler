@@ -25,7 +25,7 @@
                     :name="name"
                     :class="inputClass()"
                     :placeholder="placeholder"
-                    :autocomplete="name"
+                    :autocomplete="autocomplete"
                     :required="required"
                     :autofocus="autofocus"
                     :disabled="disabled"
@@ -53,7 +53,7 @@
                     </span>
                 </div>
             </div>
-            <div>
+            <div v-if="errorMessage">
                 <span class="text-red-500 text-xs">
                     {{ errorMessage }}
                 </span>
@@ -95,6 +95,10 @@ export default {
         autofocus: {
             type: Boolean,
             default: false,
+        },
+        autocomplete: {
+            type: String,
+            default: "",
         },
         formatter: {
             type: Function,

@@ -27,6 +27,14 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/users', [
     \App\Http\Controllers\UserMemberController::class, 'store',
 ]);
 
+Route::get('/terms', function () {
+    return Inertia::render('TermsOfService');
+})->name('terms.show');
+
+Route::get('/policy', function () {
+    return Inertia::render('PrivacyPolicy');
+})->name('policy.show');
+
 Route::middleware(['auth:sanctum', 'verified', 'requestsValidGroup'])
     ->resource('groups.schedules', \App\Http\Controllers\ScheduleController::class)
     ->except(['create']);

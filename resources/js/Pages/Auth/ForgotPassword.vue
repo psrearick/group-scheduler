@@ -49,8 +49,6 @@
 
 <script>
 import { Head, Link } from "@inertiajs/inertia-vue3";
-import JetInput from "@/Jetstream/Input.vue";
-import JetLabel from "@/Jetstream/Label.vue";
 import LinkLogoLarge from "@/Components/LinkLogoLarge";
 import CardCentered from "@/Components/CardCentered";
 import ValidationErrors from "@/Components/ValidationErrors";
@@ -66,8 +64,6 @@ export default {
         LinkLogoLarge,
         Head,
         Link,
-        JetInput,
-        JetLabel,
     },
 
     props: {

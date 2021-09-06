@@ -27,6 +27,10 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/users', [
     \App\Http\Controllers\UserMemberController::class, 'store',
 ]);
 
+Route::middleware(['auth:sanctum', 'verified'])->post('/members/search', [
+    \App\Http\Controllers\SearchMemberController::class, 'show',
+]);
+
 Route::get('/terms', function () {
     return Inertia::render('TermsOfService');
 })->name('terms.show');

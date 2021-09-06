@@ -8,6 +8,7 @@
                         text="Create Schedule"
                         button-style="primary"
                         @click="createScheduleShow(!createPanelShow)"
+                        class="ml-4 md:ml-0"
                     />
                 </div>
                 <ui-data-table

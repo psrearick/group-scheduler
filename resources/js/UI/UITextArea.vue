@@ -13,8 +13,7 @@
                         focus:ring-primary-500 focus:border-primary-500
                         block
                         w-full
-                        pl-7
-                        pr-12
+                        px-4
                         sm:text-sm
                         border-gray-300
                         rounded-md

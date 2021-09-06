@@ -1,5 +1,5 @@
 <template>
-    <app-layout :title="title">
+    <app-layout :title="title" :scroll="scroll">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ $page.props.group ? $page.props.group.name : "" }}
@@ -14,10 +14,9 @@
                         overflow-hidden
                         shadow-xl
                         sm:rounded-lg
-                        min-h-screen
                     "
                 >
-                    <slot name="boxed"></slot>
+                    <slot name="boxed" class="overflow-hidden"></slot>
                 </div>
             </div>
         </div>
@@ -38,6 +37,13 @@ export default {
     components: {
         AppLayout,
         JetNavLink,
+    },
+
+    props: {
+        scroll: {
+            type: Boolean,
+            default: true,
+        },
     },
 };
 </script>

@@ -23,7 +23,19 @@
                     :id="name"
                     :type="getType()"
                     :name="name"
-                    :class="inputClass()"
+                    :class="`
+                        border
+                        py-2
+                        focus:ring-primary-500
+                        focus:border-primary-500
+                        block
+                        w-full
+                        px-4
+                        sm:text-sm
+                        border-gray-300
+                        rounded-md
+                        disabled:bg-gray-100
+                    `"
                     :placeholder="placeholder"
                     :autocomplete="autocomplete"
                     :required="required"
@@ -167,14 +179,6 @@ export default {
                 return "text";
             }
             return this.type;
-        },
-        inputClass() {
-            let inputClass =
-                "border py-2 focus:ring-primary-500 focus:border-primary-500 block w-full px-4 sm:text-sm border-gray-300 rounded-md";
-            if (this.disabled) {
-                inputClass += " bg-gray-100";
-            }
-            return inputClass;
         },
     },
 };

@@ -26,15 +26,15 @@ class StoreEventRequest extends FormRequest
     {
         return [
             'name'          => ['required', 'string'],
-            'description'   => ['sometimes', 'string'],
+            'description'   => ['nullable', 'string'],
             'recurring'     => ['required', 'boolean'],
             'start_date'    => ['required', 'date'],
-            //            'end_date'      => Rule::requiredIf(function () {
-            //                return request('recurring');
-            //            }),
-            //            'frequency'      => Rule::requiredIf(function () {
-            //                return request('recurring');
-            //            }),
+            'end_date'      => Rule::requiredIf(function () {
+                return request('recurring');
+            }),
+            'frequency'      => Rule::requiredIf(function () {
+                return request('recurring');
+            }),
             'schedule_id'    => ['required'],
         ];
     }

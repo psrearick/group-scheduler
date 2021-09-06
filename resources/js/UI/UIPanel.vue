@@ -19,9 +19,16 @@
                     <div class="absolute inset-0" aria-hidden="true" />
 
                     <div
-                        class="absolute inset-y-0 right-0 pl-10 max-w-full flex"
+                        class="
+                            absolute
+                            inset-y-0
+                            right-0
+                            md:pl-10
+                            max-w-full
+                            flex
+                        "
                     >
-                        <div class="w-screen max-w-md">
+                        <div :class="`w-screen ${panelWidthClass}`">
                             <div
                                 class="
                                     h-full
@@ -194,6 +201,10 @@ export default {
             type: String,
             default: "Save",
         },
+        wide: {
+            type: Boolean,
+            default: false,
+        },
     },
 
     emits: ["update:show", "clearForm", "close", "save"],
@@ -202,6 +213,12 @@ export default {
         return {
             // panelVisible: this.show
         };
+    },
+
+    computed: {
+        panelWidthClass: function () {
+            return this.wide ? "md:max-w-3xl" : "md:max-w-md";
+        },
     },
 
     methods: {

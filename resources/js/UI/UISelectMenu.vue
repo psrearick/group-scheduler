@@ -1,15 +1,11 @@
 <template>
     <div>
-        <div
-            v-if="show"
-            class="fixed w-full h-full z-40 top-0 left-0"
-            @click="toggleShow"
-        ></div>
         <div class="z-50">
             <ui-input-label :label="label" />
             <div class="mt-1 relative">
                 <button
                     type="button"
+                    ref="visibilityToggle"
                     class="
                         bg-white
                         relative
@@ -69,6 +65,10 @@
                 >
                     <ul
                         v-show="show"
+                        v-closable="{
+                            exclude: ['visibilityToggle'],
+                            handler: 'closeShow'
+                        }"
                         class="
                             absolute
                             z-50
@@ -207,6 +207,9 @@ export default {
                 (this.mouse === index ? "text-primary-600" : "text-white") +
                 " absolute inset-y-0 right-0 flex items-center pr-4"
             );
+        },
+        closeShow() {
+            this.$emit("update:show", false);
         },
         toggleShow() {
             this.$emit("update:show", !this.show);

@@ -39,8 +39,8 @@
             />
 
             <ui-input
-                name="password_confirmation"
                 v-model="form.password_confirmation"
+                name="password_confirmation"
                 type="password"
                 label="Confirm Password"
                 :required="true"

@@ -5,7 +5,7 @@
         <jet-banner />
         <ui-flash />
 
-        <div class="min-h-screen bg-gray-100">
+        <div :class="`h-screen bg-gray-100 ${scrollClass}`">
             <nav class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -655,12 +655,22 @@ export default {
             type: String,
             default: "",
         },
+        scroll: {
+            type: Boolean,
+            default: true,
+        }
     },
 
     data() {
         return {
             showingNavigationDropdown: false,
         };
+    },
+
+    computed: {
+        scrollClass: function() {
+            return this.scroll ? "overflow-auto" : "overflow-hidden";
+        }
     },
 
     methods: {

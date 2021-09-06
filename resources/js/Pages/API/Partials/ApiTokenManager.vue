@@ -36,9 +36,7 @@
                             :key="permission"
                         >
                             <ui-checkbox
-                                v-model:checked="
-                                    createApiTokenForm.permissions
-                                "
+                                v-model:checked="createApiTokenForm.permissions"
                                 :value="permission"
                                 :label="permission"
                             />

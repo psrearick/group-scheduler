@@ -15,6 +15,8 @@ class DashboardController extends Controller
             $group = Session::get('group');
         }
 
+        ray(session()->all());
+
         return isset($group)
             ? Inertia::render('Groups/Show')
             : (Auth::check()

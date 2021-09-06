@@ -67,12 +67,12 @@ class User extends Authenticatable
 
     public function events() : BelongsToMany
     {
-        return $this->belongsToMany(Event::class);
+        return $this->belongsToMany(Event::class)->withTimestamps();
     }
 
     public function groups() : BelongsToMany
     {
-        return $this->belongsToMany(Group::class);
+        return $this->belongsToMany(Group::class)->withTimestamps();
     }
 
     public function setUsernameAttribute(?string $value) : void
@@ -82,6 +82,6 @@ class User extends Authenticatable
 
     public function tasks() : BelongsToMany
     {
-        return $this->belongsToMany(Task::class);
+        return $this->belongsToMany(Task::class)->withTimestamps();
     }
 }

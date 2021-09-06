@@ -114,11 +114,9 @@
                                             sm:px-6
                                         "
                                     >
-                                        <!-- Replace with your content -->
                                         <div class="h-full">
                                             <slot />
                                         </div>
-                                        <!-- /End replace -->
                                     </div>
                                 </div>
                                 <div
@@ -208,12 +206,6 @@ export default {
     },
 
     emits: ["update:show", "clearForm", "close", "save"],
-
-    data: function () {
-        return {
-            // panelVisible: this.show
-        };
-    },
 
     computed: {
         panelWidthClass: function () {

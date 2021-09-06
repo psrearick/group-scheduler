@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\CollectionHelper;
 use App\Models\Group;
 use App\Models\User;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,13 +15,16 @@ use Session;
 
 class MemberController extends Controller
 {
+    /**
+     * @throws BindingResolutionException
+     */
     public function index() : Response
     {
         $groupId = Session::get('group');
         $members = Group::find($groupId)->users;
 
         return Inertia::render('Members/Index', [
-            'members' => $members,
+            'members' => CollectionHelper::paginate($members, 10),
         ]);
     }
 

@@ -89,8 +89,8 @@
                                 >
                                     <a
                                         class="
-                                            text-secondary-600
-                                            hover:text-secondary-900
+                                            text-primary-600
+                                            hover:text-primary-900
                                             cursor-pointer
                                         "
                                         @click="$emit('edit', row)"
@@ -104,29 +104,39 @@
                 </div>
             </div>
         </div>
+        <ui-pagination :pagination="pagination" />
     </div>
 </template>
 
 <script>
 import { Link } from "@inertiajs/inertia-vue3";
+import UiPagination from "@/UI/UIPagination";
 
 export default {
     name: "UiDataTable",
 
-    components: { Link },
+    components: { UiPagination, Link },
 
     props: {
         data: {
-            type: Object,
-            default: () => {},
+            type: Array,
+            default: () => [],
         },
         fields: {
             type: Array,
-            default: () => {},
+            default: () => [],
         },
         editable: {
             type: Boolean,
             default: false,
+        },
+        showPagination: {
+            type: Boolean,
+            default: true,
+        },
+        pagination: {
+            type: Object,
+            default: () => {},
         },
     },
 

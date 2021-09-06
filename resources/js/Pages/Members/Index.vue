@@ -16,7 +16,12 @@
                         @click="createUserShow(!createPanelShow)"
                     ></ui-button>
                 </div>
-                <ui-data-table :data="getMembers()" :fields="membersFields" />
+                <ui-data-table
+                    :data="getMembers()"
+                    :fields="membersFields"
+                    :show-pagination="true"
+                    :pagination="members"
+                />
             </div>
         </template>
         <ui-panel
@@ -188,7 +193,7 @@ export default {
 
     methods: {
         getMembers() {
-            return this.members.map((member) => {
+            return this.members.data.map((member) => {
                 return {
                     name: member.name,
                     email: member.email,

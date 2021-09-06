@@ -9,7 +9,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
-use Request;
 use Session;
 
 class ScheduleController extends Controller
@@ -28,14 +27,17 @@ class ScheduleController extends Controller
             'schedules' => Schedule
                 ::where('group_id', Session::get('group'))
                 ->whereNull('deleted_at')
-                ->get(),
+                ->paginate(10),
         ]);
     }
 
     public function show(Group $group, Schedule $schedule) : Response
     {
         return Inertia::render('Schedules/Show', [
-            'schedule'  => $schedule->load(['events', 'events.members', 'events.tasks', 'events.tasks.members']),
+            'schedule'  => $schedule,
+            'events'    => $schedule->events->count() ? $schedule->events->toQuery()
+                ->with(['members', 'tasks.members'])
+                ->paginate(10) : [],
             'group'     => Group::find(Session::get('group')),
         ]);
     }

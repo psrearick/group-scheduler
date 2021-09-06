@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="z-50">
-            <ui-input-label :label="label" />
+            <ui-input-label :label="label" :required="required" />
             <div class="mt-1 relative">
                 <button
                     ref="visibilityToggle"
@@ -57,6 +57,12 @@
                         </svg>
                     </span>
                 </button>
+
+                <div v-if="errorMessage">
+                    <span class="text-red-500 text-xs">
+                        {{ errorMessage }}
+                    </span>
+                </div>
 
                 <transition
                     leave-active-class="transition ease-in duration-100"
@@ -141,6 +147,10 @@ export default {
     components: { UiInputLabel },
 
     props: {
+        errorMessage: {
+            type: String,
+            default: "",
+        },
         label: {
             type: String,
             default: "",
@@ -164,6 +174,10 @@ export default {
         selected: {
             type: Object,
             default: () => {},
+        },
+        required: {
+            type: Boolean,
+            default: false,
         },
     },
 

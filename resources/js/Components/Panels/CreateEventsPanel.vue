@@ -3,7 +3,7 @@
         :show="show"
         :form="true"
         :clear="false"
-        title="Create Events"
+        :title="isEditing ? `Edit ${createEventsForm.name}` : 'Create Events'"
         save-text="Save"
         :wide="true"
         @update:show="$emit('update:show', $event)"
@@ -44,7 +44,7 @@
                 @select="selectMember"
                 @deselect="deselectMember"
             />
-            <div class="mb-4 md:flex gap-x-4">
+            <div v-if="!isEditing" class="mb-4 md:flex gap-x-4">
                 <ui-radio
                     v-model="recurringString"
                     name="recurring"
@@ -61,15 +61,17 @@
                     v-model:selected="createEventsForm.frequency"
                     label="Repeat Every"
                     name="frequency"
+                    :error-message="errorMessages.frequency"
                     :options="frequencyOptions"
                     class="flex-1"
+                    :required="isRecurring"
                 />
             </div>
             <div
                 :class="
                     isRecurring
-                        ? ' mb-4 md:flex gap-x-4 justify-between'
-                        : 'mb-4'
+                        ? ' mb-8 md:flex gap-x-4 justify-between'
+                        : 'mb-8'
                 "
             >
                 <ui-input
@@ -89,6 +91,14 @@
                     label="End Date"
                     :error-message="errorMessages.end_date"
                     :class="isRecurring ? 'flex-1' : ''"
+                    :required="isRecurring"
+                />
+            </div>
+            <div v-if="isEditing">
+                <ui-button
+                    button-style="danger"
+                    text="Delete Event"
+                    @click="requestDeleteEvent"
                 />
             </div>
         </form>
@@ -102,10 +112,12 @@ import UiInput from "@/UI/UIInput";
 import UiTextArea from "@/UI/UITextArea";
 import UiSelectMenu from "@/UI/UISelectMenu";
 import UiSearchMultiSelect from "@/UI/UISearchMultiSelect";
+import UiButton from "@/UI/UIButton";
 export default {
     name: "CreateEventsPanel",
 
     components: {
+        UiButton,
         UiSearchMultiSelect,
         UiInput,
         UiPanel,
@@ -127,7 +139,17 @@ export default {
             type: Object,
             default: () => {},
         },
+        event: {
+            type: Object,
+            default: () => {},
+        },
+        deleteEvent: {
+            type: Boolean,
+            default: false,
+        },
     },
+
+    emits: ["update:show", "delete", "deleted"],
 
     data() {
         return {
@@ -188,11 +210,41 @@ export default {
         isRecurring: function () {
             return this.recurringString === "recurring-recurring";
         },
+        isEditing: function () {
+            return !!this.event.id;
+        },
+        saveUrl: function () {
+            return (
+                "/groups/" +
+                this.schedule.group_id +
+                "/events" +
+                (this.isEditing ? "/" + this.event.id : "")
+            );
+        },
+        saveMethod: function () {
+            return this.isEditing ? "patch" : "post";
+        },
     },
 
     watch: {
         errors: function (newVal) {
             this.errorMessages = newVal;
+        },
+        event: function (newVal) {
+            this.clearForm();
+            if (this.isEditing) {
+                this.createEventsForm = newVal;
+                if (newVal.members) {
+                    newVal.members.forEach((member) => {
+                        this.selectMember(member);
+                    });
+                }
+            }
+        },
+        deleteEvent: function (newVal) {
+            if (newVal) {
+                this.delete();
+            }
         },
     },
 
@@ -213,13 +265,18 @@ export default {
                 schedule_id: null,
                 assigned: [],
             };
+            this.errorMessage = {};
+            this.recurringString = "";
+            this.assignMemberShow = false;
+            this.frequencyShow = false;
+            this.assignedMemberSelected = [];
         },
         close() {
-            this.$emit("close");
+            this.$emit("update:show", false);
         },
         closeCreateEventsPanel() {
             this.clearForm();
-            this.errorMessage = {};
+            this.close();
         },
         searchMembers: _.debounce(function (value) {
             this.assignMemberValue = value;
@@ -229,33 +286,46 @@ export default {
         }, 1000),
         selectMember(option) {
             this.assignedMemberSelected.push(option);
-            this.createEventsForm.assigned.push(option.id);
+            if (this.createEventsForm.assigned.indexOf(option.id) === -1) {
+                this.createEventsForm.assigned.push(option.id);
+            }
             this.assignMemberValue = "";
         },
         deselectMember(option) {
             let index = this.assignedMemberSelected.findIndex(
-                (elem) => elem.id === option.id
+                (elem) => elem.id === option
             );
             this.assignedMemberSelected.splice(index, 1);
             let formIndex = this.createEventsForm.assigned.findIndex(
-                (elem) => elem === option.id
+                (elem) => elem === option
             );
             this.createEventsForm.assigned.splice(formIndex, 1);
+        },
+        requestDeleteEvent() {
+            this.$emit("delete");
+        },
+        delete() {
+            this.$inertia.delete(this.saveUrl, {
+                onSuccess: () => {
+                    this.$emit("deleted");
+                    this.closeCreateEventsPanel();
+                },
+            });
         },
         save() {
             let self = this;
             this.createEventsForm.schedule_id = this.schedule.id;
             this.createEventsForm.recurring = this.isRecurring;
-            this.$inertia.post(
-                "/groups/" + this.schedule.group_id + "/events",
-                this.createEventsForm,
-                {
-                    onSuccess: () => {
+            this.$inertia.visit(this.saveUrl, {
+                method: this.saveMethod,
+                data: this.createEventsForm,
+                preserveState: true,
+                onSuccess: () => {
+                    if (Object.keys(this.errors).length === 0) {
                         self.closeCreateEventsPanel();
-                    },
-                    only: ["schedule", "errors"],
-                }
-            );
+                    }
+                },
+            });
         },
     },
 };

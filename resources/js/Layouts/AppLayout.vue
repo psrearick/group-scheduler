@@ -3,7 +3,7 @@
         <Head :title="title" />
 
         <jet-banner />
-        <ui-flash />
+        <!--        <ui-flash />-->
 
         <div :class="`h-screen bg-gray-100 ${scrollClass}`">
             <nav class="bg-white border-b border-gray-100">

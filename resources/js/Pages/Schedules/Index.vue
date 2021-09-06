@@ -15,6 +15,8 @@
                     :data="getTableData()"
                     :fields="scheduleFields"
                     :editable="true"
+                    :pagination="schedules"
+                    :show-pagination="true"
                     @edit="editScheduleShow"
                 />
             </div>
@@ -74,7 +76,7 @@ export default {
 
     props: {
         schedules: {
-            type: Array,
+            type: Object,
             default: () => {},
         },
         errors: {
@@ -171,7 +173,7 @@ export default {
         },
 
         getTableData() {
-            return this.schedules.map((schedule) => {
+            return this.schedules.data.map((schedule) => {
                 schedule.route = {
                     group: this.group.id,
                     schedule: schedule.id,

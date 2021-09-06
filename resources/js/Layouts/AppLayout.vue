@@ -658,7 +658,7 @@ export default {
         scroll: {
             type: Boolean,
             default: true,
-        }
+        },
     },
 
     data() {
@@ -668,9 +668,9 @@ export default {
     },
 
     computed: {
-        scrollClass: function() {
+        scrollClass: function () {
             return this.scroll ? "overflow-auto" : "overflow-hidden";
-        }
+        },
     },
 
     methods: {

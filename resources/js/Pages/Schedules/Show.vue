@@ -26,9 +26,7 @@
                     <p class="text-red-700">This schedule has no events!</p>
                 </div>
 
-                <div
-                    class="p-4 md:p-0"
-                >
+                <div class="p-4 md:p-0">
                     <ui-button
                         type="button"
                         text="Create Events"

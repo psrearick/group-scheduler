@@ -14,6 +14,7 @@ class SearchMemberController extends Controller
             ::where('name', 'like', '%' . $request->get('search') . '%')
             ->limit(20)
             ->get();
+
         return response()->json(['members' => $members]);
     }
 }

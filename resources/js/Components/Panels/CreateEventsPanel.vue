@@ -32,17 +32,17 @@
             <ui-search-multi-select
                 v-model:show="assignMemberShow"
                 :value="assignMemberValue"
-                @update:model-value="searchMembers"
-                @focus="assignedMemberFocus"
                 :data="assignMemberData"
-                @select="selectMember"
-                @deselect="deselectMember"
                 :selected="assignedMemberSelected"
                 label="Assign Members"
                 name="assign_name"
                 key-name="id"
                 display="name"
                 class="mb-4"
+                @update:model-value="searchMembers"
+                @focus="assignedMemberFocus"
+                @select="selectMember"
+                @deselect="deselectMember"
             />
             <div class="mb-4 md:flex gap-x-4">
                 <ui-radio
@@ -223,10 +223,9 @@ export default {
         },
         searchMembers: _.debounce(function (value) {
             this.assignMemberValue = value;
-            axios.post('/members/search', {search: value})
-                .then((res) => {
-                    this.assignMemberData = res.data.members;
-                });
+            axios.post("/members/search", { search: value }).then((res) => {
+                this.assignMemberData = res.data.members;
+            });
         }, 1000),
         selectMember(option) {
             this.assignedMemberSelected.push(option);
@@ -234,9 +233,13 @@ export default {
             this.assignMemberValue = "";
         },
         deselectMember(option) {
-            let index = this.assignedMemberSelected.findIndex(elem => elem.id === option.id);
+            let index = this.assignedMemberSelected.findIndex(
+                (elem) => elem.id === option.id
+            );
             this.assignedMemberSelected.splice(index, 1);
-            let formIndex = this.createEventsForm.assigned.findIndex(elem => elem === option.id);
+            let formIndex = this.createEventsForm.assigned.findIndex(
+                (elem) => elem === option.id
+            );
             this.createEventsForm.assigned.splice(formIndex, 1);
         },
         save() {

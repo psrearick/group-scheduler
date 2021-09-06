@@ -9,9 +9,9 @@
             />
         </div>
         <div v-if="errorMessage">
-                <span class="text-red-500 text-xs">
-                    {{ errorMessage }}
-                </span>
+            <span class="text-red-500 text-xs">
+                {{ errorMessage }}
+            </span>
         </div>
         <div class="mt-4 space-y-4">
             <div v-for="(option, index) in options" class="flex items-center">

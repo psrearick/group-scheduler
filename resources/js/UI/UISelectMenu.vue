@@ -4,8 +4,8 @@
             <ui-input-label :label="label" />
             <div class="mt-1 relative">
                 <button
-                    type="button"
                     ref="visibilityToggle"
+                    type="button"
                     class="
                         bg-white
                         relative
@@ -67,7 +67,7 @@
                         v-show="show"
                         v-closable="{
                             exclude: ['visibilityToggle'],
-                            handler: 'closeShow'
+                            handler: 'closeShow',
                         }"
                         class="
                             absolute

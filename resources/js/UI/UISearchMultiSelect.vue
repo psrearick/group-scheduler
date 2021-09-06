@@ -5,8 +5,8 @@
             <div>
                 <button
                     id="menu-button"
-                    type="button"
                     ref="visibilityToggle"
+                    type="button"
                     :class="inputClass"
                     aria-expanded="true"
                     aria-haspopup="true"
@@ -17,7 +17,13 @@
                             <span
                                 v-for="(selection, index) in selected"
                                 :key="index"
-                                class="flex items-center bg-gray-100 py-2 rounded-lg"
+                                class="
+                                    flex
+                                    items-center
+                                    bg-gray-100
+                                    py-2
+                                    rounded-lg
+                                "
                             >
                                 <span @click="deselect(selection[keyName])">
                                     <svg
@@ -43,19 +49,20 @@
                         <input
                             type="text"
                             class="
-                            flex-1
-                            h-full
-                            w-full
-                            rounded-md
-                            border-0
-                            ring-0
-                            focus:border-0
-                            focus:ring-0
-                        "
-                            @focus="inputFocus"
+                                flex-1
+                                h-full
+                                w-full
+                                rounded-md
+                                border-0
+                                ring-0
+                                focus:border-0 focus:ring-0
+                            "
                             :value="value"
-                            @blur="focus=false"
-                            @input="$emit('update:modelValue', $event.target.value)"
+                            @focus="inputFocus"
+                            @blur="focus = false"
+                            @input="
+                                $emit('update:modelValue', $event.target.value)
+                            "
                         />
                     </span>
                 </button>
@@ -72,22 +79,22 @@
                 <ul
                     v-show="show"
                     v-closable="{
-                            exclude: ['visibilityToggle'],
-                            handler: 'closeShow'
-                        }"
+                        exclude: ['visibilityToggle'],
+                        handler: 'closeShow',
+                    }"
                     class="
-                    origin-top-right
-                    absolute
-                    right-0
-                    mt-2
-                    w-full
-                    rounded-md
-                    shadow-lg
-                    bg-white
-                    ring-1 ring-black ring-opacity-5
-                    divide-y divide-gray-200
-                    focus:outline-none
-                "
+                        origin-top-right
+                        absolute
+                        right-0
+                        mt-2
+                        w-full
+                        rounded-md
+                        shadow-lg
+                        bg-white
+                        ring-1 ring-black ring-opacity-5
+                        divide-y divide-gray-200
+                        focus:outline-none
+                    "
                     role="menu"
                     aria-orientation="vertical"
                     aria-labelledby="menu-button"
@@ -116,20 +123,20 @@
                             v-if="isSelected(option)"
                             :class="checkmarkClass(index)"
                         >
-                                <svg
-                                    class="h-5 w-5"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                        clip-rule="evenodd"
-                                    />
-                                </svg>
-                            </span>
+                            <svg
+                                class="h-5 w-5"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"
+                                />
+                            </svg>
+                        </span>
                     </li>
                 </ul>
             </transition>
@@ -141,7 +148,7 @@
 import UiInputLabel from "@/UI/UIInputLabel";
 export default {
     name: "UiSearchMultiSelect",
-    components: {UiInputLabel},
+    components: { UiInputLabel },
     props: {
         data: {
             type: Object,
@@ -149,19 +156,19 @@ export default {
         },
         display: {
             type: String,
-            default: '',
+            default: "",
         },
         keyName: {
             type: String,
-            default: '',
+            default: "",
         },
         label: {
             type: String,
-            default: '',
+            default: "",
         },
         name: {
             type: String,
-            default: '',
+            default: "",
         },
         required: {
             type: Boolean,
@@ -177,13 +184,13 @@ export default {
         },
         value: {
             type: String,
-            default: '',
+            default: "",
         },
     },
 
     emits: ["focus", "update:modelValue", "update:show", "select"],
 
-    data: function() {
+    data: function () {
         return {
             focus: false,
             mouse: null,
@@ -210,7 +217,7 @@ export default {
                 focusClass = "outline-none ring-2 ring-primary-500";
             }
             return `${inputClass} ${focusClass}`;
-        }
+        },
     },
 
     methods: {
@@ -224,11 +231,13 @@ export default {
             this.$emit("deselect", option);
         },
         inputFocus() {
-            this.focus=true;
-            this.$emit('focus');
+            this.focus = true;
+            this.$emit("focus");
         },
         isSelected(option) {
-            return this.selected.findIndex(elem => elem.id === option.id) > -1;
+            return (
+                this.selected.findIndex((elem) => elem.id === option.id) > -1
+            );
         },
         liClass(index, option) {
             return (
@@ -255,6 +264,6 @@ export default {
             let show = this.focus ? true : !this.show;
             this.$emit("update:show", show);
         },
-    }
+    },
 };
 </script>

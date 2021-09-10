@@ -175,8 +175,10 @@ export default {
         getTableData() {
             return this.schedules.data.map((schedule) => {
                 schedule.route = {
-                    group: this.group.id,
-                    schedule: schedule.id,
+                    name: {
+                        group: this.group.id,
+                        schedule: schedule.id,
+                    }
                 };
                 return schedule;
             });

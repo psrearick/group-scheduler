@@ -37,6 +37,7 @@ class ScheduleController extends Controller
             'schedule'  => $schedule,
             'events'    => $schedule->events->count() ? $schedule->events->toQuery()
                 ->with(['members', 'tasks.members'])
+                ->orderBy('date', 'desc')
                 ->paginate(10) : [],
             'group'     => Group::find(Session::get('group')),
         ]);

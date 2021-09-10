@@ -62,7 +62,7 @@
                                     "
                                 >
                                     <Link
-                                        v-if="field.link || field.route"
+                                        v-if="(field.link || field.route) && row[field.field]"
                                         :href="getUrl(field, row)"
                                         class="
                                             text-primary-600
@@ -144,7 +144,7 @@ export default {
         getUrl(field, data) {
             return field.link
                 ? field.link.replace("{link}", data[field.link_field])
-                : route(field.route, data["route"]);
+                : route(field.route, data["route"][field.field]);
         },
     },
 };

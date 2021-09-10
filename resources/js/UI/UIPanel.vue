@@ -131,7 +131,7 @@
                                     <div>
                                         <UIButton
                                             :text="closeText"
-                                            button-style="danger"
+                                            button-style="white"
                                             @click="close"
                                         />
                                         <UIButton
@@ -146,7 +146,7 @@
                                         <UIButton
                                             v-if="form"
                                             :text="saveText"
-                                            button-style="primary"
+                                            button-style="primary-outline"
                                             @click="save"
                                         />
                                     </div>

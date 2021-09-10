@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Inertia\Inertia;
 
 class EventController extends Controller
 {
@@ -20,6 +21,19 @@ class EventController extends Controller
         $event->delete();
 
         return redirect()->back();
+    }
+
+    public function index()
+    {
+        return Inertia::render('Events/Index', [
+            'events'    => Event
+                ::with(['schedule', 'members', 'tasks.members'])
+                    ->where('group_id', session('group'))
+                    ->whereNull('deleted_at')
+                    ->orderBy('date', 'desc')
+                    ->paginate(10),
+            'group'     => Group::find(session('group')),
+        ]);
     }
 
     public function show(Group $group, Event $event)
@@ -51,8 +65,7 @@ class EventController extends Controller
                 $day->addDay();
             }
             if ($request->get('frequency') == 'week') {
-                $day->addWeek();
-            }
+                $day->addWeek();}
             if ($request->get('frequency') == 'month') {
                 $day->addMonthNoOverflow();
             }

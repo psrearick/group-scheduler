@@ -1,24 +1,13 @@
 <template>
     <group-layout :scroll="!createEventsShow">
         <template #boxed>
-            <div class="p-0 md:p-4">
-                <ui-well class="mb-8">
-                    <h2 class="text-xl">{{ schedule.name }}</h2>
-                    <p
-                        v-if="schedule.description"
-                        class="text-sm text-gray-700"
-                    >
-                        {{ schedule.description }}
-                    </p>
-                </ui-well>
-                <events-table
-                    :schedule="schedule"
+            <div class="p-0 md:m-4">
+                <EventsTable
                     :events="events"
                     :group="group"
                     :errors="errors"
                     :success="success"
                     :fields="fields"
-                    :can-create-multiple="true"
                     @panelShow="createEventsShow = $event"
                 />
             </div>
@@ -28,36 +17,24 @@
 
 <script>
 import GroupLayout from "@/Layouts/GroupLayout";
-import UiWell from "@/UI/UIWell";
 import UiButton from "@/UI/UIButton";
-import UiPanel from "@/UI/UIPanel";
-import CreateEventsPanel from "@/Components/Panels/CreateEventsPanel";
 import UiDataTable from "@/UI/UIDataTable";
-import UiModal from "@/UI/UIModal";
-import Icon from "@/Components/Icon";
+import CreateEventsPanel from "@/Components/Panels/CreateEventsPanel";
 import DeleteModal from "@/Components/Modals/DeleteModal";
 import EventsTable from "@/Partials/__eventsTable";
 export default {
-    name: "SchedulesShow",
+    name: "Index",
 
     components: {
         EventsTable,
-        DeleteModal,
-        Icon,
-        UiModal,
+        GroupLayout,
+        UiButton,
         UiDataTable,
         CreateEventsPanel,
-        UiButton,
-        UiWell,
-        UiPanel,
-        GroupLayout,
+        DeleteModal,
     },
 
     props: {
-        schedule: {
-            type: Object,
-            default: () => {},
-        },
         events: {
             type: Object,
             default: () => {},
@@ -82,11 +59,11 @@ export default {
             fields: [
                 'name',
                 'description',
+                'schedule',
                 'date',
                 'members',
-                'tasks',
             ],
         };
     },
-};
+}
 </script>

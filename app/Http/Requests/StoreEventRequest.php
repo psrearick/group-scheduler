@@ -38,7 +38,7 @@ class StoreEventRequest extends FormRequest
                     return request('recurring');
                 }),
             ],
-            'schedule_id'    => ['required'],
+            'schedule_id'    => ['nullable', 'numeric'],
         ];
     }
 }

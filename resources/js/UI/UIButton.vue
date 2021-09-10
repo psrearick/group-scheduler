@@ -45,6 +45,9 @@ export default {
             if (this.buttonStyle === "primary") {
                 return "border border-primary-200 text-gray-700 bg-primary-400 hover:bg-primary-500";
             }
+            if (this.buttonStyle === "primary-outline") {
+                return "border border-primary-400 text-primary-500 bg-white hover:bg-primary-50";
+            }
             if (this.buttonStyle === "secondary") {
                 return "border border-secondary-200 text-gray-700 bg-secondary-400 hover:bg-secondary-500";
             }
@@ -55,7 +58,7 @@ export default {
                 return "border border-danger-200 text-black bg-danger-500 hover:bg-danger-700";
             }
             if (this.buttonStyle === "white") {
-                return "border border-gray-200 text-gray-700 bg-white hover:bg-gray-100";
+                return "border border-gray-300 text-gray-700 bg-white hover:bg-gray-100";
             }
             return "border border-gray-200 text-gray-700 bg-gray-100 hover:bg-gray-300";
         },

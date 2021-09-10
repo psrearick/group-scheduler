@@ -48,11 +48,26 @@
                                     "
                                     :active="
                                         route().current(
-                                            'groups.schedules.index'
+                                            'groups.schedules.*'
                                         )
                                     "
                                 >
                                     Schedules
+                                </jet-nav-link>
+                                <jet-nav-link
+                                    v-if="$page.props.group"
+                                    :href="
+                                        route('groups.events.index', {
+                                            group: $page.props.group,
+                                        })
+                                    "
+                                    :active="
+                                        route().current(
+                                            'groups.events.*'
+                                        )
+                                    "
+                                >
+                                    Events
                                 </jet-nav-link>
                             </div>
                         </div>
@@ -450,7 +465,19 @@
                                     group: $page.props.group,
                                 })
                             "
-                            :active="route().current('groups.schedules.index')"
+                            :active="route().current('groups.schedules.*')"
+                        >
+                            Schedules
+                        </jet-responsive-nav-link>
+
+                        <jet-responsive-nav-link
+                            v-if="$page.props.group"
+                            :href="
+                                route('groups.events.index', {
+                                    group: $page.props.group,
+                                })
+                            "
+                            :active="route().current('groups.events.*')"
                         >
                             Schedules
                         </jet-responsive-nav-link>

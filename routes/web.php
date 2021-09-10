@@ -43,6 +43,10 @@ Route::middleware(['auth:sanctum', 'verified', 'requestsValidGroup'])
     ->resource('groups.schedules', \App\Http\Controllers\ScheduleController::class)
     ->except(['create']);
 
+Route::middleware(['auth:sanctum', 'verified', 'requestsValidGroup'])
+    ->resource('groups.events', \App\Http\Controllers\EventController::class)
+    ->except(['create']);
+
 Route::middleware(['auth:sanctum', 'verified'])->prefix('groups')->group(function () {
     Route::post('/', [\App\Http\Controllers\GroupController::class, 'store']);
     Route::delete('/', [\App\Http\Controllers\UserGroupAccessController::class, 'destroy'])->name('groups.exit');

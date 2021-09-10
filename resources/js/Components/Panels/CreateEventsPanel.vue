@@ -44,7 +44,7 @@
                 @select="selectMember"
                 @deselect="deselectMember"
             />
-            <div v-if="!isEditing" class="mb-4 md:flex gap-x-4">
+            <div v-if="!isEditing && canCreateMultiple" class="mb-4 md:flex gap-x-4">
                 <ui-radio
                     v-model="recurringString"
                     name="recurring"
@@ -131,7 +131,15 @@ export default {
             type: Boolean,
             default: false,
         },
+        canCreateMultiple: {
+            type: Boolean,
+            default: true,
+        },
         schedule: {
+            type: Object,
+            default: () => {},
+        },
+        group: {
             type: Object,
             default: () => {},
         },
@@ -214,12 +222,8 @@ export default {
             return !!this.event.id;
         },
         saveUrl: function () {
-            return (
-                "/groups/" +
-                this.schedule.group_id +
-                "/events" +
-                (this.isEditing ? "/" + this.event.id : "")
-            );
+            return "/groups/" + this.group.id + "/events"
+                + (this.isEditing ? "/" + this.event.id : "");
         },
         saveMethod: function () {
             return this.isEditing ? "patch" : "post";
@@ -314,7 +318,9 @@ export default {
         },
         save() {
             let self = this;
-            this.createEventsForm.schedule_id = this.schedule.id;
+            this.createEventsForm.schedule_id = this.schedule
+                ? this.schedule.id
+                : this.createEventsForm.schedule_id;
             this.createEventsForm.recurring = this.isRecurring;
             this.$inertia.visit(this.saveUrl, {
                 method: this.saveMethod,

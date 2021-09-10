@@ -2,14 +2,7 @@
     <div>
         <div
             v-if="!hasEvents"
-            class="
-                    mx-2
-                    mb-8
-                    p-4
-                    bg-red-200
-                    border border-red-800
-                    rounded
-                "
+            class="mx-2 mb-8 p-4 bg-red-200 border border-red-800 rounded"
         >
             <p class="text-red-700">This schedule has no events!</p>
         </div>
@@ -112,6 +105,8 @@ export default {
         },
     },
 
+    emits: ["panelShow"],
+
     data() {
         return {
             createEventsShow: false,
@@ -154,7 +149,7 @@ export default {
                     field: "task_count",
                 },
             };
-            return this.fields.map(field => {
+            return this.fields.map((field) => {
                 return eventFields[field];
             });
         },
@@ -166,7 +161,7 @@ export default {
             if (!show) {
                 this.editingEvent = {};
             }
-            this.$emit('panelShow', show);
+            this.$emit("panelShow", show);
         },
         deleteEventRequest() {
             this.deleteModalShow = true;
@@ -192,10 +187,12 @@ export default {
                         group: this.group.id,
                         event: event.id,
                     },
-                    schedule_name: event.schedule ? {
-                        group: event.schedule.group_id,
-                        schedule: event.schedule.id,
-                    } : {},
+                    schedule_name: event.schedule
+                        ? {
+                              group: event.schedule.group_id,
+                              schedule: event.schedule.id,
+                          }
+                        : {},
                 };
                 event.schedule_name = event.schedule ? event.schedule.name : "";
             });
@@ -208,5 +205,5 @@ export default {
             this.deleteModalShow = show;
         },
     },
-}
+};
 </script>

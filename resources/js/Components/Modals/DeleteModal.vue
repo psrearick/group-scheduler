@@ -14,7 +14,11 @@
                     button-style="danger"
                     @click="$emit('delete')"
                 />
-                <ui-button text="Cancel" button-style="white" @click="$emit('update:show', false)" />
+                <ui-button
+                    text="Cancel"
+                    button-style="white"
+                    @click="$emit('update:show', false)"
+                />
             </div>
         </template>
     </ui-modal>

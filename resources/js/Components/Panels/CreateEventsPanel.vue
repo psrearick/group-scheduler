@@ -44,7 +44,10 @@
                 @select="selectMember"
                 @deselect="deselectMember"
             />
-            <div v-if="!isEditing && canCreateMultiple" class="mb-4 md:flex gap-x-4">
+            <div
+                v-if="!isEditing && canCreateMultiple"
+                class="mb-4 md:flex gap-x-4"
+            >
                 <ui-radio
                     v-model="recurringString"
                     name="recurring"
@@ -222,8 +225,12 @@ export default {
             return !!this.event.id;
         },
         saveUrl: function () {
-            return "/groups/" + this.group.id + "/events"
-                + (this.isEditing ? "/" + this.event.id : "");
+            return (
+                "/groups/" +
+                this.group.id +
+                "/events" +
+                (this.isEditing ? "/" + this.event.id : "")
+            );
         },
         saveMethod: function () {
             return this.isEditing ? "patch" : "post";

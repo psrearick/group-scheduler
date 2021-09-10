@@ -178,7 +178,7 @@ export default {
                     name: {
                         group: this.group.id,
                         schedule: schedule.id,
-                    }
+                    },
                 };
                 return schedule;
             });

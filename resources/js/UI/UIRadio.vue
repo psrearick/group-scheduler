@@ -14,15 +14,19 @@
             </span>
         </div>
         <div class="mt-4 space-y-4">
-            <div v-for="(option, index) in options" class="flex items-center">
+            <div
+                v-for="(option, index) in options"
+                :key="index"
+                class="flex items-center"
+            >
                 <input
                     :id="option.id"
-                    v-model="modelValue"
+                    v-model="inputValue"
                     :name="name"
                     :value="option.id"
                     type="radio"
                     :class="inputClass"
-                    @change="$emit('update:modelValue', $event.target.value)"
+                    @change="updateValue($event)"
                 />
                 <label
                     :for="option.option_name"
@@ -39,7 +43,9 @@
 import UiInputLabel from "@/UI/UIInputLabel";
 export default {
     name: "UiRadio",
+
     components: { UiInputLabel },
+
     props: {
         options: {
             type: Array,
@@ -79,6 +85,14 @@ export default {
         },
     },
 
+    emits: ["update:modelValue"],
+
+    data() {
+        return {
+            inputValue: null,
+        };
+    },
+
     computed: {
         focusRing: function () {
             return `focus:ring-${this.color}-500`;
@@ -93,8 +107,16 @@ export default {
         },
     },
 
+    watch: {
+        modelValue: function (newValue) {
+            this.inputValue = newValue;
+        },
+    },
+
     methods: {
-        selectOption($event) {},
+        updateValue(value) {
+            this.$emit("update:modelValue", value.target.value);
+        },
     },
 };
 </script>

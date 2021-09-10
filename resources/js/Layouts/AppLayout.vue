@@ -47,9 +47,7 @@
                                         })
                                     "
                                     :active="
-                                        route().current(
-                                            'groups.schedules.*'
-                                        )
+                                        route().current('groups.schedules.*')
                                     "
                                 >
                                     Schedules
@@ -61,11 +59,7 @@
                                             group: $page.props.group,
                                         })
                                     "
-                                    :active="
-                                        route().current(
-                                            'groups.events.*'
-                                        )
-                                    "
+                                    :active="route().current('groups.events.*')"
                                 >
                                     Events
                                 </jet-nav-link>

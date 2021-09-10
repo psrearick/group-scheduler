@@ -188,7 +188,7 @@ export default {
         },
     },
 
-    emits: ["focus", "update:modelValue", "update:show", "select"],
+    emits: ["focus", "update:modelValue", "update:show", "select", "deselect"],
 
     data: function () {
         return {

@@ -65,7 +65,8 @@ class EventController extends Controller
                 $day->addDay();
             }
             if ($request->get('frequency') == 'week') {
-                $day->addWeek();}
+                $day->addWeek();
+            }
             if ($request->get('frequency') == 'month') {
                 $day->addMonthNoOverflow();
             }

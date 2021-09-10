@@ -36,6 +36,7 @@ export default {
             default: false,
         },
         value: {
+            type: [Array, Boolean],
             default: null,
         },
         label: {

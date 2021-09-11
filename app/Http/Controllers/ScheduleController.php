@@ -45,7 +45,7 @@ class ScheduleController extends Controller
 
     public function store(StoreScheduleRequest $request) : RedirectResponse
     {
-        $request->group->schedules()->create([
+        Group::find($request->group)->schedules()->create([
             'name'          => $request->input('name'),
             'description'   => $request->input('description'),
         ]);

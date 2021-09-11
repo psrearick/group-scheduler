@@ -1,6 +1,12 @@
 <template>
     <group-layout>
         <template #boxed>
+            <div
+                v-if="!hasSchedules"
+                class="mx-2 my-4 p-4 bg-red-200 border border-red-800 rounded"
+            >
+                <p class="text-red-700">You do not have any schedules!</p>
+            </div>
             <div class="p-0 md:p-4">
                 <div class="py-8">
                     <ui-button
@@ -12,6 +18,7 @@
                     />
                 </div>
                 <ui-data-table
+                    v-if="hasSchedules"
                     :data="getTableData()"
                     :fields="scheduleFields"
                     :editable="true"
@@ -115,6 +122,12 @@ export default {
     watch: {
         errors: function (newVal) {
             this.errorMessages = newVal;
+        },
+    },
+
+    computed: {
+        hasSchedules: function () {
+            return this.schedules && this.schedules.data && this.schedules.data.length;
         },
     },
 

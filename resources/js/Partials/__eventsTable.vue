@@ -2,9 +2,10 @@
     <div>
         <div
             v-if="!hasEvents"
-            class="mx-2 mb-8 p-4 bg-red-200 border border-red-800 rounded"
+            class="mx-2 my-4 p-4 bg-red-200 border border-red-800 rounded"
         >
-            <p class="text-red-700">This schedule has no events!</p>
+            <p v-if="hasSchedule" class="text-red-700">This schedule has no events!</p>
+            <p v-else class="text-red-700">You do not have any events!</p>
         </div>
 
         <div class="p-4 md:p-0">
@@ -119,6 +120,9 @@ export default {
     computed: {
         hasEvents: function () {
             return this.events && this.events.data && this.events.data.length;
+        },
+        hasSchedule: function () {
+            return this.schedule;
         },
         eventFields: function () {
             let eventFields = {

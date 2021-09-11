@@ -473,7 +473,7 @@
                             "
                             :active="route().current('groups.events.*')"
                         >
-                            Schedules
+                            Events
                         </jet-responsive-nav-link>
                     </div>
 

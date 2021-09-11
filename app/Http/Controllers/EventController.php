@@ -13,17 +13,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class EventController extends Controller
 {
-    public function destroy(Group $group, Event $event)
+    public function destroy(Group $group, Event $event) : RedirectResponse
     {
         $event->delete();
 
         return redirect()->back();
     }
 
-    public function index()
+    public function index() : Response
     {
         return Inertia::render('Events/Index', [
             'events'    => Event

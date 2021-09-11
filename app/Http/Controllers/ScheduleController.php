@@ -13,6 +13,13 @@ use Session;
 
 class ScheduleController extends Controller
 {
+    public function destroy(Group $group, Schedule $schedule) : RedirectResponse
+    {
+        $schedule->delete();
+
+        return redirect()->back();
+    }
+
     public function edit(Group $group, Schedule $schedule) : Response
     {
         return Inertia::render('Schedules/Edit', [

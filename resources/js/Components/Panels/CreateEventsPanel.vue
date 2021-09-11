@@ -10,6 +10,7 @@
         @close="close"
         @save="save"
     >
+        <p class="text-gray-500 text-sm py-4">{{ titleText }} an event</p>
         <form>
             <ui-input
                 v-model="createEventsForm.name"
@@ -235,6 +236,9 @@ export default {
         saveMethod: function () {
             return this.isEditing ? "patch" : "post";
         },
+        titleText: function () {
+            return this.isEditing ? "Edit" : "Create";
+        },
     },
 
     watch: {
@@ -289,18 +293,13 @@ export default {
             this.clearForm();
             this.close();
         },
-        searchMembers: _.debounce(function (value) {
-            this.assignMemberValue = value;
-            axios.post("/members/search", { search: value }).then((res) => {
-                this.assignMemberData = res.data.members;
+        delete() {
+            this.$inertia.delete(this.saveUrl, {
+                onSuccess: () => {
+                    this.$emit("deleted");
+                    this.closeCreateEventsPanel();
+                },
             });
-        }, 1000),
-        selectMember(option) {
-            this.assignedMemberSelected.push(option);
-            if (this.createEventsForm.assigned.indexOf(option.id) === -1) {
-                this.createEventsForm.assigned.push(option.id);
-            }
-            this.assignMemberValue = "";
         },
         deselectMember(option) {
             let index = this.assignedMemberSelected.findIndex(
@@ -314,14 +313,6 @@ export default {
         },
         requestDeleteEvent() {
             this.$emit("delete");
-        },
-        delete() {
-            this.$inertia.delete(this.saveUrl, {
-                onSuccess: () => {
-                    this.$emit("deleted");
-                    this.closeCreateEventsPanel();
-                },
-            });
         },
         save() {
             let self = this;
@@ -340,8 +331,19 @@ export default {
                 },
             });
         },
+        searchMembers: _.debounce(function (value) {
+            this.assignMemberValue = value;
+            axios.post("/members/search", { search: value }).then((res) => {
+                this.assignMemberData = res.data.members;
+            });
+        }, 1000),
+        selectMember(option) {
+            this.assignedMemberSelected.push(option);
+            if (this.createEventsForm.assigned.indexOf(option.id) === -1) {
+                this.createEventsForm.assigned.push(option.id);
+            }
+            this.assignMemberValue = "";
+        },
     },
 };
 </script>
-
-<style scoped></style>

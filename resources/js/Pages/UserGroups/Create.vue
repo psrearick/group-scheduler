@@ -9,5 +9,3 @@ export default {
     components: { AppLayout },
 };
 </script>
-
-<style scoped></style>

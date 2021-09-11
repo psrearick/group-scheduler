@@ -14,51 +14,36 @@
                         text="Create Schedule"
                         button-style="primary"
                         class="ml-4 md:ml-0"
-                        @click="createScheduleShow(!createPanelShow)"
+                        @click="createSchedulesPanelShow(!createSchedulesShow)"
                     />
                 </div>
                 <ui-data-table
                     v-if="hasSchedules"
-                    :data="getTableData()"
+                    :data="getScheduleData()"
                     :fields="scheduleFields"
                     :editable="true"
                     :pagination="schedules"
                     :show-pagination="true"
-                    @edit="editScheduleShow"
+                    @edit="editSchedule"
                 />
             </div>
         </template>
-        <ui-panel
-            :show="createPanelShow"
-            :form="true"
-            :clear="false"
-            :title="action + ' Schedule'"
-            :save-text="action"
-            @update:show="createScheduleShow($event)"
-            @close="closeSchedulePanel"
-            @save="submitSchedule"
-        >
-            <p class="text-gray-500 text-sm py-4">{{ action }} a schedule</p>
-            <form>
-                <ui-input
-                    v-model="createScheduleForm.name"
-                    name="name"
-                    type="string"
-                    label="Name"
-                    :required="true"
-                    :error-message="errorMessages.name"
-                    class="mb-4"
-                />
-                <ui-text-area
-                    v-model="createScheduleForm.description"
-                    name="description"
-                    type="textarea"
-                    label="Description"
-                    :required="false"
-                    :error-message="errorMessages.description"
-                />
-            </form>
-        </ui-panel>
+        <create-schedules-panel
+            :delete-schedule="deleteSchedule"
+            @delete="deleteScheduleRequest"
+            @deleted="deleteSchedule = false"
+            :errors="errors"
+            :group="group"
+            :schedule="editingSchedule"
+            :show="createSchedulesShow"
+            @update:show="createSchedulesPanelShow($event)"
+        />
+        <delete-modal
+            :show="deleteModalShow"
+            record-type="Schedule"
+            @update:show="updateDeleteModalShow"
+            @delete="deleteScheduleConfirmed"
+        />
     </group-layout>
 </template>
 
@@ -69,10 +54,15 @@ import UiButton from "@/UI/UIButton";
 import UiPanel from "@/UI/UIPanel";
 import UiInput from "@/UI/UIInput";
 import UiTextArea from "@/UI/UITextArea";
+import CreateSchedulesPanel from "@/Components/Panels/CreateSchedulesPanel";
+import _ from "lodash";
+import DeleteModal from "@/Components/Modals/DeleteModal";
 export default {
     name: "SchedulesIndex",
 
     components: {
+        CreateSchedulesPanel,
+        DeleteModal,
         UiTextArea,
         UiInput,
         UiPanel,
@@ -109,13 +99,10 @@ export default {
                     field: "description",
                 },
             ],
-            createScheduleForm: {
-                name: "",
-                description: "",
-            },
-            createPanelShow: false,
-            errorMessages: {},
-            action: "Create",
+            createSchedulesShow: false,
+            editingSchedule: {},
+            deleteModalShow: false,
+            deleteSchedule: false,
         };
     },
 
@@ -132,61 +119,29 @@ export default {
     },
 
     methods: {
-        closeSchedulePanel() {
-            this.createScheduleForm = {
-                name: "",
-                description: "",
-            };
-            this.errorMessages = {};
-            this.action = "Create";
-        },
-
-        createScheduleShow(show) {
-            this.createPanelShow = show;
-        },
-
-        submitSchedule() {
-            if (this.createScheduleForm.id) {
-                this.updateSchedule();
-                return;
+        createSchedulesPanelShow(show) {
+            this.createSchedulesShow = show;
+            if (!show) {
+                this.editingSchedule = {};
             }
-            this.createSchedule();
         },
 
-        createSchedule() {
-            let self = this;
-            let url = "/groups/" + this.group.id + "/schedules";
-            this.$inertia.post(url, this.createScheduleForm, {
-                onSuccess: function () {
-                    self.closeSchedulePanel();
-                    self.createScheduleShow(false);
-                },
-            });
+        deleteScheduleConfirmed() {
+            this.deleteModalShow = false;
+            this.deleteSchedule = true;
         },
 
-        updateSchedule() {
-            let self = this;
-            let url =
-                "/groups/" +
-                this.group.id +
-                "/schedules/" +
-                this.createScheduleForm.id;
-            this.$inertia.patch(url, this.createScheduleForm, {
-                onSuccess: function () {
-                    self.closeSchedulePanel();
-                    self.createScheduleShow(false);
-                },
-            });
+        deleteScheduleRequest() {
+            this.deleteModalShow = true;
         },
 
-        editScheduleShow(schedule) {
-            this.action = "Edit";
-            this.createScheduleForm = _.cloneDeep(schedule);
-            this.createScheduleShow(true);
+        editSchedule(schedule) {
+            this.editingSchedule = _.cloneDeep(schedule);
+            this.createSchedulesPanelShow(true);
         },
 
-        getTableData() {
-            return this.schedules.data.map((schedule) => {
+        getScheduleData() {
+            return _.cloneDeep(this.schedules).data.map(schedule => {
                 schedule.route = {
                     name: {
                         group: this.group.id,
@@ -195,6 +150,10 @@ export default {
                 };
                 return schedule;
             });
+        },
+
+        updateDeleteModalShow(show) {
+            this.deleteModalShow = show;
         },
     },
 };

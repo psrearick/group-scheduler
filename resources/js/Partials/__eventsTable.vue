@@ -17,28 +17,27 @@
                 @click="createEventsPanelShow(!createEventsShow)"
             />
 
-            <div v-if="hasEvents">
-                <ui-data-table
-                    :fields="eventFields"
-                    :data="getEventData()"
-                    :editable="true"
-                    :show-pagination="true"
-                    :pagination="getEventPagination()"
-                    @edit="editEvent"
-                />
-            </div>
+            <ui-data-table
+                v-if="hasEvents"
+                :data="getEventData()"
+                :fields="eventFields"
+                :editable="true"
+                :pagination="events"
+                :show-pagination="true"
+                @edit="editEvent"
+            />
         </div>
         <create-events-panel
-            :show="createEventsShow"
-            :schedule="schedule"
+            :can-create-multiple="canCreateMultiple"
+            :delete-event="deleteEvent"
+            @delete="deleteEventRequest"
+            @deleted="deleteEvent = false"
+            :errors="errors"
             :event="editingEvent"
             :group="group"
-            :errors="errors"
-            :delete-event="deleteEvent"
-            :can-create-multiple="canCreateMultiple"
-            @deleted="deleteEvent = false"
+            :schedule="schedule"
+            :show="createEventsShow"
             @update:show="createEventsPanelShow($event)"
-            @delete="deleteEventRequest"
         />
         <delete-modal
             :show="deleteModalShow"
@@ -59,6 +58,7 @@ import UiButton from "@/UI/UIButton";
 import UiWell from "@/UI/UIWell";
 import UiPanel from "@/UI/UIPanel";
 import GroupLayout from "@/Layouts/GroupLayout";
+import _ from "lodash";
 
 export default {
     name: "EventsTable",
@@ -167,20 +167,19 @@ export default {
             }
             this.$emit("panelShow", show);
         },
-        deleteEventRequest() {
-            this.deleteModalShow = true;
-        },
         deleteEventConfirmed() {
             this.deleteModalShow = false;
             this.deleteEvent = true;
         },
+        deleteEventRequest() {
+            this.deleteModalShow = true;
+        },
         editEvent(event) {
-            this.editingEvent = event;
+            this.editingEvent = _.cloneDeep(event);
             this.createEventsPanelShow(true);
         },
         getEventData() {
-            let events = _.cloneDeep(this.events.data);
-            events.forEach((event) => {
+            return _.cloneDeep(this.events).data.map(event => {
                 event.assigned = event.members.map((member) => member.id);
                 event.assigned_members = event.members
                     .map((member) => member.name)
@@ -199,11 +198,8 @@ export default {
                         : {},
                 };
                 event.schedule_name = event.schedule ? event.schedule.name : "";
+                return event;
             });
-            return events;
-        },
-        getEventPagination() {
-            return this.events;
         },
         updateDeleteModalShow(show) {
             this.deleteModalShow = show;

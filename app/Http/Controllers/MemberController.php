@@ -2,56 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\CollectionHelper;
-use App\Models\Group;
-use App\Models\User;
+use App\Http\Requests\StoreOtherMemberRequest;
+use App\Repositories\MemberRepository;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Redirect;
-use Session;
 
 class MemberController extends Controller
 {
+    private MemberRepository $memberRepository;
+
+    public function __construct(MemberRepository $memberRepository)
+    {
+        $this->memberRepository = $memberRepository;
+    }
+
     /**
      * @throws BindingResolutionException
      */
     public function index() : Response
     {
-        $groupId = Session::get('group');
-        $members = Group::find($groupId)->users;
-
         return Inertia::render('Members/Index', [
-            'members' => CollectionHelper::paginate($members, 10),
+            'members' => $this->memberRepository->getMembersForCurrentGroupPaginated(10),
         ]);
     }
 
-    public function store(Request $request) : RedirectResponse
+    public function store(StoreOtherMemberRequest $request) : RedirectResponse
     {
-        $validated = $request->validate([
-            'username'  => 'required_without:email',
-            'email'     => 'required_without:username',
-        ]);
+        $errors = $this->memberRepository->storeMember($request);
 
-        if ($validated['email']) {
-            $user = User::where('email', '=', $validated['email'])->first();
-
-            if (!$user) {
-                return Redirect::back()->withErrors(['email' => 'Email not found']);
-            }
+        if (count($errors)) {
+            return Redirect::back()->withErrors($errors);
         }
-
-        if ($validated['username']) {
-            $user = User::where('username', '=', $validated['username'])->first();
-
-            if (!$user) {
-                return Redirect::back()->withErrors(['username' => 'Username not found']);
-            }
-        }
-
-        $user->groups()->syncWithoutDetaching(Session::get('group'));
 
         return Redirect::back();
     }

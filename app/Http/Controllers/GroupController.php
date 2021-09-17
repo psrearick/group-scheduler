@@ -2,31 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Groups\CreateGroup;
+use App\Http\Requests\StoreGroupRequest;
 use App\Models\Group;
-use Illuminate\Http\Request;
+use App\Repositories\GroupRepository;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class GroupController extends Controller
 {
-    public function create() : \Inertia\Response
+    private GroupRepository $groupRepository;
+
+    public function __construct(GroupRepository $groupRepository)
+    {
+        $this->groupRepository = $groupRepository;
+    }
+
+    /**
+     * @return Response
+     */
+    public function create() : Response
     {
         return Inertia::render('Groups/Create');
     }
 
-    public function edit(Group $group)
+    public function edit(Group $group) : void
     {
-        dd($group);
+        //
     }
 
     /**
-     * @throws \Illuminate\Validation\ValidationException
+     * @param StoreGroupRequest $request
+     * @return RedirectResponse
      */
-    public function store() : \Illuminate\Http\RedirectResponse
+    public function store(StoreGroupRequest $request) : RedirectResponse
     {
-        app(CreateGroup::class)->storeForUser(request()->all(), Auth::user());
+        $this->groupRepository->storeForUser($request, Auth::user());
 
         return Redirect::route('dashboard');
     }

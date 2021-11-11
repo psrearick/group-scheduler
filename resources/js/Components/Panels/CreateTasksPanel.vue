@@ -33,7 +33,8 @@
                 v-model:show="assignMemberShow"
                 :value="assignMemberValue"
                 :data="assignMemberData"
-                :selected="assignedMemberSelected"
+                :selected="createTaskForm.assigned"
+                :current="task.members"
                 label="Assign Members"
                 name="assign_name"
                 key-name="id"
@@ -114,7 +115,6 @@ export default {
             assignMemberData: [],
             assignMemberShow: false,
             assignMemberValue: "",
-            assignedMemberSelected: [],
         };
     },
 
@@ -148,15 +148,6 @@ export default {
             this.clearForm();
             if (this.isEditing) {
                 this.createTaskForm = value;
-                this.createTaskForm.assigned = [];
-                if (value.members && value.members.length) {
-                    this.createTaskForm.assigned = _.each(
-                        value.members,
-                        (member) => {
-                            this.selectMember(member);
-                        }
-                    );
-                }
             }
         },
         deleteTask: function (value) {
@@ -175,7 +166,6 @@ export default {
             };
             this.errorMessages = {};
             this.assignMemberShow = false;
-            this.assignedMemberSelected = [];
         },
         close() {
             this.$emit("close");
@@ -215,14 +205,10 @@ export default {
             }
         },
         deselectMember(option) {
-            let index = this.assignedMemberSelected.findIndex(
-                (elem) => elem.id === option
-            );
-            this.assignedMemberSelected.splice(index, 1);
-            let formIndex = this.createEventsForm.assigned.findIndex(
+            let formIndex = this.createTaskForm.assigned.findIndex(
                 (elem) => elem === option
             );
-            this.createEventsForm.assigned.splice(formIndex, 1);
+            this.createTaskForm.assigned.splice(formIndex, 1);
         },
         searchMembers: _.debounce(function (value) {
             this.assignMemberValue = value;
@@ -231,9 +217,8 @@ export default {
             });
         }, 1000),
         selectMember(option) {
-            this.assignedMemberSelected.push(option);
-            if (this.createTaskForm.assigned.indexOf(option.id) === -1) {
-                this.createTaskForm.assigned.push(option.id);
+            if (this.createTaskForm.assigned.indexOf(option) === -1) {
+                this.createTaskForm.assigned.push(option);
             }
             this.assignMemberValue = "";
         },

@@ -4,8 +4,10 @@
         :view-box="viewBox"
         :h-val="hVal"
         :w-val="wVal"
-        :color="color"
+        :color="iconColor"
         :stroke="stroke"
+        @mouseenter="enterColor"
+        @mouseleave="leaveColor"
     />
 </template>
 
@@ -30,9 +32,29 @@ export default {
             type: String,
             default: "text-primary-500",
         },
+        hoverColor: {
+            type: String,
+            default: "text-gray-400",
+        },
         stroke: {
             type: String,
             default: "currentColor",
+        },
+    },
+    data() {
+        return {
+            iconColor: "",
+        };
+    },
+    mounted() {
+        this.iconColor = this.color;
+    },
+    methods: {
+        enterColor() {
+            this.iconColor = this.hoverColor;
+        },
+        leaveColor() {
+            this.iconColor = this.color;
         },
     },
 };

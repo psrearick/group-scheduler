@@ -34,7 +34,8 @@
                 v-model:show="assignMemberShow"
                 :value="assignMemberValue"
                 :data="assignMemberData"
-                :selected="assignedMemberSelected"
+                :selected="createEventsForm.assigned"
+                :current="event.members"
                 label="Assign Members"
                 name="assign_name"
                 key-name="id"
@@ -268,8 +269,8 @@ export default {
                 this.searchMembers();
             }
         },
-        clearForm() {
-            this.createEventsForm = {
+        getEmptyCreateForm() {
+            return {
                 name: "",
                 description: "",
                 recurring: false,
@@ -279,11 +280,13 @@ export default {
                 schedule_id: null,
                 assigned: [],
             };
+        },
+        clearForm() {
+            this.createEventsForm = this.getEmptyCreateForm();
             this.errorMessage = {};
             this.recurringString = "";
             this.assignMemberShow = false;
             this.frequencyShow = false;
-            this.assignedMemberSelected = [];
         },
         close() {
             this.$emit("update:show", false);
@@ -304,10 +307,6 @@ export default {
             });
         },
         deselectMember(option) {
-            let index = this.assignedMemberSelected.findIndex(
-                (elem) => elem.id === option
-            );
-            this.assignedMemberSelected.splice(index, 1);
             let formIndex = this.createEventsForm.assigned.findIndex(
                 (elem) => elem === option
             );
@@ -340,9 +339,8 @@ export default {
             });
         }, 1000),
         selectMember(option) {
-            this.assignedMemberSelected.push(option);
-            if (this.createEventsForm.assigned.indexOf(option.id) === -1) {
-                this.createEventsForm.assigned.push(option.id);
+            if (this.createEventsForm.assigned.indexOf(option) === -1) {
+                this.createEventsForm.assigned.push(option);
             }
             this.assignMemberValue = "";
         },
@@ -350,10 +348,13 @@ export default {
             this.clearForm();
             this.searchMembers();
             if (this.isEditing) {
+                if (Object.keys(newVal).length === 0) {
+                    newVal = this.getEmptyCreateForm();
+                }
                 this.createEventsForm = _.cloneDeep(newVal);
                 if (newVal.members) {
                     newVal.members.forEach((member) => {
-                        this.selectMember(member);
+                        this.selectMember(member.id);
                     });
                 }
             }

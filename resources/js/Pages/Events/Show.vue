@@ -64,7 +64,7 @@
                     :group="group"
                     :schedule="schedule"
                     :redirect-on-delete="true"
-                    @delete="deleteModalShow = true"
+                    @delete="deleteInitiate('Event')"
                     @deleted="deleteEvent = false"
                 />
                 <create-tasks-panel
@@ -74,13 +74,13 @@
                     :event="eventData"
                     :group="group"
                     :task="editingTask"
-                    @delete="deleteModalShow = true"
+                    @delete="deleteInitiate('Task')"
                     @deleted="deleteTask = false"
                     @close="createTaskPanelShow(false)"
                 />
                 <delete-modal
                     v-model:show="deleteModalShow"
-                    record-type="Event"
+                    :record-type="deleteRecordType"
                     @delete="deleteEventConfirmed"
                 />
             </div>
@@ -137,6 +137,8 @@ export default {
             editingTask: [],
             deleteModalShow: false,
             deleteEvent: false,
+            deleteTask: false,
+            deleteRecordType: "Event",
             freshEvent: null,
             taskFields: [
                 {
@@ -185,9 +187,16 @@ export default {
                 this.editingTask = [];
             }
         },
+        deleteInitiate(recordType) {
+            this.deleteRecordType = recordType;
+            this.deleteModalShow = true;
+        },
         deleteEventConfirmed() {
             this.deleteModalShow = false;
-            this.deleteEvent = true;
+            if (this.deleteRecordType === "Event") {
+                return (this.deleteEvent = true);
+            }
+            return (this.deleteTask = true);
         },
         getFreshEvent(open) {
             this.freshEvent = open ? this.eventData : null;

@@ -25,7 +25,7 @@
                                     rounded-lg
                                 "
                             >
-                                <span @click="deselect(selection[keyName])">
+                                <span @click="deselect(selection)">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="h-4 w-4 mx-2 hover:text-gray-500"
@@ -42,7 +42,7 @@
                                     </svg>
                                 </span>
                                 <span class="text-xs mr-3">
-                                    {{ selection[display] }}
+                                    {{ getSelectionDisplay(selection) }}
                                 </span>
                             </span>
                         </span>
@@ -104,15 +104,15 @@
                         v-for="(option, index) in data"
                         :id="name + '-' + index"
                         :key="index"
-                        :class="liClass(index, option)"
+                        :class="liClass(index, option[keyName])"
                         role="option"
                         @mouseenter="mouseOn(index)"
                         @mouseleave="mouseOff()"
-                        @click="select(option)"
+                        @click="select(option[keyName])"
                     >
                         <span
                             :class="
-                                (isSelected(option)
+                                (isSelected(option[keyName])
                                     ? 'font-semibold'
                                     : 'font-normal') + ' block truncate'
                             "
@@ -120,7 +120,7 @@
                             {{ option[display] }}
                         </span>
                         <span
-                            v-if="isSelected(option)"
+                            v-if="isSelected(option[keyName])"
                             :class="checkmarkClass(index)"
                         >
                             <svg
@@ -151,6 +151,10 @@ export default {
     components: { UiInputLabel },
     props: {
         data: {
+            type: Object,
+            default: () => {},
+        },
+        current: {
             type: Object,
             default: () => {},
         },
@@ -238,9 +242,16 @@ export default {
             this.$emit("focus");
         },
         isSelected(option) {
-            return (
-                this.selected.findIndex((elem) => elem.id === option.id) > -1
-            );
+            return this.selected.findIndex((elem) => elem === option) > -1;
+        },
+        getSelectionDisplay(selection) {
+            let index = this.data.findIndex((elem) => elem.id === selection);
+            if (index === -1) {
+                index = this.current.findIndex((elem) => elem.id === selection);
+                return this.current[index][this.display];
+            }
+
+            return this.data[index][this.display];
         },
         liClass(index, option) {
             return (

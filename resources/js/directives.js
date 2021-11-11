@@ -9,7 +9,9 @@ const closable = {
             exclude.forEach((refName) => {
                 if (!clickedOnExcludedEl) {
                     const excludedEl = binding.instance.$refs[refName];
-                    clickedOnExcludedEl = excludedEl.contains(e.target);
+                    if (excludedEl) {
+                        clickedOnExcludedEl = excludedEl.contains(e.target);
+                    }
                 }
             });
             if (!el.contains(e.target) && !clickedOnExcludedEl) {

@@ -82,7 +82,7 @@
                                                         focus:ring-2
                                                         focus:ring-primary-500
                                                     "
-                                                    @click="showPanel(false)"
+                                                    @click="close"
                                                 >
                                                     <span class="sr-only"
                                                         >Close panel</span

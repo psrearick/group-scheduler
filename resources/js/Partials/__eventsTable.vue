@@ -4,7 +4,9 @@
             v-if="!hasEvents"
             class="mx-2 my-4 p-4 bg-red-200 border border-red-800 rounded"
         >
-            <p v-if="hasSchedule" class="text-red-700">This schedule has no events!</p>
+            <p v-if="hasSchedule" class="text-red-700">
+                This schedule has no events!
+            </p>
             <p v-else class="text-red-700">You do not have any events!</p>
         </div>
 
@@ -30,13 +32,13 @@
         <create-events-panel
             :can-create-multiple="canCreateMultiple"
             :delete-event="deleteEvent"
-            @delete="deleteEventRequest"
-            @deleted="deleteEvent = false"
             :errors="errors"
             :event="editingEvent"
             :group="group"
             :schedule="schedule"
             :show="createEventsShow"
+            @delete="deleteEventRequest"
+            @deleted="deleteEvent = false"
             @update:show="createEventsPanelShow($event)"
         />
         <delete-modal
@@ -179,7 +181,7 @@ export default {
             this.createEventsPanelShow(true);
         },
         getEventData() {
-            return _.cloneDeep(this.events).data.map(event => {
+            return _.cloneDeep(this.events).data.map((event) => {
                 event.assigned = event.members.map((member) => member.id);
                 event.assigned_members = event.members
                     .map((member) => member.name)

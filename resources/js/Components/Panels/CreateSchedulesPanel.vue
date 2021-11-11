@@ -3,7 +3,9 @@
         :show="show"
         :form="true"
         :clear="false"
-        :title="titleText + ' ' + (isEditing ? createScheduleForm.name : 'Schedule')"
+        :title="
+            titleText + ' ' + (isEditing ? createScheduleForm.name : 'Schedule')
+        "
         save-text="Save"
         @update:show="$emit('update:show', $event)"
         @close="close"
@@ -52,7 +54,7 @@ export default {
         UiPanel,
         UiInput,
         UiTextArea,
-        UiButton
+        UiButton,
     },
 
     props: {
@@ -116,7 +118,7 @@ export default {
         },
         schedule: function (newVal) {
             this.clearForm();
-            if(this.isEditing) {
+            if (this.isEditing) {
                 this.createScheduleForm = newVal;
             }
         },
@@ -153,16 +155,16 @@ export default {
         requestDeleteSchedule() {
             this.$emit("delete");
         },
-        createSchedule() {
-            let self = this;
-            let url = "/groups/" + this.group.id + "/schedules";
-            this.$inertia.post(url, this.createScheduleForm, {
-                onSuccess: function () {
-                    self.closeSchedulePanel();
-                    self.createSchedulesPanelShow(false);
-                },
-            });
-        },
+        // createSchedule() {
+        //     let self = this;
+        //     let url = "/groups/" + this.group.id + "/schedules";
+        //     this.$inertia.post(url, this.createScheduleForm, {
+        //         onSuccess: function () {
+        //             self.closeSchedulePanel();
+        //             self.createSchedulesPanelShow(false);
+        //         },
+        //     });
+        // },
         save() {
             let self = this;
             this.$inertia.visit(this.saveUrl, {
@@ -176,6 +178,6 @@ export default {
                 },
             });
         },
-    }
-}
+    },
+};
 </script>

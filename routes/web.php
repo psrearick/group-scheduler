@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -47,14 +46,14 @@ Route::middleware(['auth:sanctum', 'verified', 'requestsValidGroup'])
     ->resource('groups.events', \App\Http\Controllers\EventController::class)
     ->except(['create']);
 
+Route::middleware(['auth:sanctum', 'verified', 'requestsValidGroup'])
+    ->resource('groups.events.tasks', \App\Http\Controllers\TaskController::class)
+    ->except(['create']);
+
 Route::middleware(['auth:sanctum', 'verified'])->prefix('groups')->group(function () {
     Route::post('/', [\App\Http\Controllers\GroupController::class, 'store']);
     Route::delete('/', [\App\Http\Controllers\UserGroupAccessController::class, 'destroy'])->name('groups.exit');
     Route::get('/{group}/edit', [\App\Http\Controllers\GroupController::class, 'edit'])->name('groups.edit');
-    Route::post('/{group}/events', [\App\Http\Controllers\EventController::class, 'store'])->name('groups.events.store');
-    Route::get('/{group}/events/{event}', [\App\Http\Controllers\EventController::class, 'show'])->name('groups.events.show');
-    Route::patch('/{group}/events/{event}', [\App\Http\Controllers\EventController::class, 'update'])->name('groups.events.update');
-    Route::delete('/{group}/events/{event}', [\App\Http\Controllers\EventController::class, 'destroy'])->name('groups.events.destroy');
     Route::get('/create', [\App\Http\Controllers\GroupController::class, 'create'])->name('groups.create');
     Route::get('/join', [\App\Http\Controllers\UserGroupController::class, 'create']);
     Route::get('/members', [\App\Http\Controllers\MemberController::class, 'index'])

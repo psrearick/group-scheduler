@@ -117,6 +117,8 @@ import UiTextArea from "@/UI/UITextArea";
 import UiSelectMenu from "@/UI/UISelectMenu";
 import UiSearchMultiSelect from "@/UI/UISearchMultiSelect";
 import UiButton from "@/UI/UIButton";
+import _ from "lodash";
+
 export default {
     name: "CreateEventsPanel",
 
@@ -156,6 +158,10 @@ export default {
             default: () => {},
         },
         deleteEvent: {
+            type: Boolean,
+            default: false,
+        },
+        redirectOnDelete: {
             type: Boolean,
             default: false,
         },
@@ -245,16 +251,9 @@ export default {
         errors: function (newVal) {
             this.errorMessages = newVal;
         },
-        event: function (newVal) {
-            this.clearForm();
-            if (this.isEditing) {
-                this.createEventsForm = newVal;
-                if (newVal.members) {
-                    newVal.members.forEach((member) => {
-                        this.selectMember(member);
-                    });
-                }
-            }
+        show: function (open) {
+            const data = open ? this.event : {};
+            this.setEvent(data);
         },
         deleteEvent: function (newVal) {
             if (newVal) {
@@ -295,6 +294,9 @@ export default {
         },
         delete() {
             this.$inertia.delete(this.saveUrl, {
+                data: {
+                    navigate: this.redirectOnDelete,
+                },
                 onSuccess: () => {
                     this.$emit("deleted");
                     this.closeCreateEventsPanel();
@@ -343,6 +345,18 @@ export default {
                 this.createEventsForm.assigned.push(option.id);
             }
             this.assignMemberValue = "";
+        },
+        setEvent(newVal) {
+            this.clearForm();
+            this.searchMembers();
+            if (this.isEditing) {
+                this.createEventsForm = _.cloneDeep(newVal);
+                if (newVal.members) {
+                    newVal.members.forEach((member) => {
+                        this.selectMember(member);
+                    });
+                }
+            }
         },
     },
 };

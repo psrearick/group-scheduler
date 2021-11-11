@@ -9,6 +9,7 @@ use App\Models\Group;
 use App\Repositories\EventRepository;
 use App\Repositories\GroupRepository;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -25,9 +26,24 @@ class EventController extends Controller
         $this->groupRepository = $groupRepository;
     }
 
-    public function destroy(Group $group, Event $event) : RedirectResponse
+    public function destroy(Request $request, Group $group, Event $event) : RedirectResponse
     {
+        $schedule = $event->schedule;
+
         $this->eventRepository->deleteEvent($event);
+
+        if ($request->get('navigate') && $schedule) {
+            return redirect()->route('groups.schedules.show', [
+                'group'     => $group,
+                'schedule'  => $schedule,
+            ]);
+        }
+
+        if ($request->navigate) {
+            return redirect()->route('groups.events.index', [
+                'group'     => $group,
+            ]);
+        }
 
         return redirect()->back();
     }
@@ -42,7 +58,13 @@ class EventController extends Controller
 
     public function show(Group $group, Event $event)
     {
-        //
+        $eventLoaded = $this->eventRepository->getEventEager($event);
+        $tasks = $this->eventRepository->getEventTasks($event)->with('members')->paginate();
+
+        return Inertia::render('Events/Show', [
+            'event'     => $eventLoaded,
+            'tasks'     => $tasks,
+        ]);
     }
 
     public function store(StoreEventRequest $request) : RedirectResponse

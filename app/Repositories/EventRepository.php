@@ -5,17 +5,24 @@ namespace App\Repositories;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
+use App\Models\Task;
 use Carbon\Carbon;
 use DateTimeZone;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Session;
 
 class EventRepository extends Repository
 {
     public function deleteEvent(Event $event) : void
     {
         $event->delete();
+    }
+
+    public function getEventEager(Event $event) : Event
+    {
+        return $event->load(['members', 'group', 'schedule', 'tasks']);
     }
 
     public function getEventsBuilderForGroup() : Builder
@@ -35,6 +42,11 @@ class EventRepository extends Repository
     public function getEventsForGroupPaginated(int $paginate) : LengthAwarePaginator
     {
         return $this->getEventsBuilderForGroup()->paginate($paginate);
+    }
+
+    public function getEventTasks(Event $event) : Builder
+    {
+        return Task::where('event_id', '=', $event->id)->whereNull('deleted_at');
     }
 
     public function saveEvent(StoreEventRequest $request) : void

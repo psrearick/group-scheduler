@@ -12,7 +12,7 @@
                     aria-haspopup="true"
                     @click="toggleShow"
                 >
-                    <span class="block flex w-full">
+                    <span class="flex w-full">
                         <span class="pl-2 flex items-center gap-x-2">
                             <span
                                 v-for="(selection, index) in selected"
@@ -77,7 +77,7 @@
                 leave-to-class="transform opacity-0 scale-95"
             >
                 <ul
-                    v-show="show"
+                    v-show="showDropdown"
                     v-closable="{
                         exclude: ['visibilityToggle'],
                         handler: 'closeShow',
@@ -218,6 +218,9 @@ export default {
             }
             return `${inputClass} ${focusClass}`;
         },
+        showDropdown() {
+            return this.show && Object.keys(this.data).length;
+        },
     },
 
     methods: {
@@ -255,6 +258,10 @@ export default {
         },
         select(option) {
             this.toggleShow();
+            if (this.isSelected(option)) {
+                return this.deselect(option);
+            }
+
             this.$emit("select", option);
         },
         closeShow() {

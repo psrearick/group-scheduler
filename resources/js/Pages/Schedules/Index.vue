@@ -30,12 +30,12 @@
         </template>
         <create-schedules-panel
             :delete-schedule="deleteSchedule"
-            @delete="deleteScheduleRequest"
-            @deleted="deleteSchedule = false"
             :errors="errors"
             :group="group"
             :schedule="editingSchedule"
             :show="createSchedulesShow"
+            @delete="deleteScheduleRequest"
+            @deleted="deleteSchedule = false"
             @update:show="createSchedulesPanelShow($event)"
         />
         <delete-modal
@@ -106,15 +106,19 @@ export default {
         };
     },
 
-    watch: {
-        errors: function (newVal) {
-            this.errorMessages = newVal;
+    computed: {
+        hasSchedules: function () {
+            return (
+                this.schedules &&
+                this.schedules.data &&
+                this.schedules.data.length
+            );
         },
     },
 
-    computed: {
-        hasSchedules: function () {
-            return this.schedules && this.schedules.data && this.schedules.data.length;
+    watch: {
+        errors: function (newVal) {
+            this.errorMessages = newVal;
         },
     },
 
@@ -141,7 +145,7 @@ export default {
         },
 
         getScheduleData() {
-            return _.cloneDeep(this.schedules).data.map(schedule => {
+            return _.cloneDeep(this.schedules).data.map((schedule) => {
                 schedule.route = {
                     name: {
                         group: this.group.id,

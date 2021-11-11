@@ -51,7 +51,7 @@ class ScheduleRepository extends Repository
 
         return $events->count() ? $events->toQuery()
             ->with(['members', 'tasks.members'])
-            ->orderByDesc('date')
+            ->orderBy('date')
             : null;
     }
 

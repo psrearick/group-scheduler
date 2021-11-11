@@ -79,7 +79,7 @@ export default {
     data() {
         return {
             createEventsShow: false,
-            fields: ["name", "description", "date", "members", "tasks"],
+            fields: ["name", "date", "members", "tasks"],
         };
     },
 };
